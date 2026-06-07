@@ -1,0 +1,257 @@
+.highlight-mark {
+  background: #fff3cd;
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+:root {
+  --primary: #1677ff;
+  --primary-light: #e6f4ff;
+  --primary-hover: #4096ff;
+  --app-bg: #f0f2f5;
+  --panel-bg: #ffffff;
+  --surface-muted: #fafafa;
+  --surface-subtle: #f5f5f5;
+  --surface-elevated: #ffffff;
+  --text-on-primary: #ffffff;
+  --sidebar-width: 280px;
+  --border-color: #e8e8e8;
+  --border-light: #f0f0f0;
+  --text-primary: #1f1f1f;
+  --text-secondary: #8c8c8c;
+  --text-tertiary: #bfbfbf;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.06);
+  --table-stripe: #fafafa;
+  --priority-high-bg: #fff1f0;
+  --priority-high-text: #cf1322;
+  --priority-medium-bg: #fffbe6;
+  --priority-medium-text: #d48806;
+  --priority-low-bg: #f5f5f5;
+  --priority-low-text: #8c8c8c;
+  --tag-bg: #f0f5ff;
+  --tag-border: #adc6ff;
+  --tag-text: #1677ff;
+  --pin-color: #faad14;
+  --pin-bg: #fffbe6;
+  --pin-row-bg: #fffdf5;
+  --nav-hover: #f5f5f5;
+  --nav-active: #d6e8ff;
+  --nav-active-hover: #c4ddff;
+  color-scheme: light;
+}
+
+html.dark {
+  --primary-light: #111a2c;
+  --app-bg: #141414;
+  --panel-bg: #1f1f1f;
+  --surface-muted: #262626;
+  --surface-subtle: #303030;
+  --surface-elevated: #1f1f1f;
+  --border-color: #434343;
+  --border-light: #303030;
+  --text-primary: #e8e8e8;
+  --text-secondary: #a6a6a6;
+  --text-tertiary: #737373;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.35);
+  --table-stripe: #262626;
+  --priority-high-bg: #2a1215;
+  --priority-high-text: #ff7875;
+  --priority-medium-bg: #2b2111;
+  --priority-medium-text: #ffc53d;
+  --priority-low-bg: #262626;
+  --priority-low-text: #a6a6a6;
+  --tag-bg: #111a2c;
+  --tag-border: #15325b;
+  --tag-text: #69b1ff;
+  --pin-color: #ffc53d;
+  --pin-bg: #2b2111;
+  --pin-row-bg: #2a2416;
+  --nav-hover: #303030;
+  --nav-active: #111a2c;
+  --nav-active-hover: #15325b;
+  color-scheme: dark;
+}
+
+html.dark .highlight-mark {
+  background: #594214;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
+  background: var(--app-bg);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+html[data-window-opacity="on"] #app {
+  opacity: var(--window-opacity, 1);
+}
+
+.app-shell {
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  background: var(--app-bg);
+}
+
+.panel {
+  background: var(--panel-bg);
+}
+
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.empty-state {
+  padding: 64px 24px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.empty-state p {
+  margin: 8px 0;
+}
+
+/* Element Plus overrides */
+.el-button--primary {
+  --el-button-bg-color: var(--primary);
+  --el-button-border-color: var(--primary);
+  --el-button-hover-bg-color: var(--primary-hover);
+  --el-button-hover-border-color: var(--primary-hover);
+}
+
+.el-table {
+  --el-table-header-bg-color: var(--surface-muted);
+  --el-table-header-text-color: var(--text-secondary);
+  --el-table-row-hover-bg-color: var(--primary-light);
+  --el-table-border-color: var(--border-light);
+  --el-table-bg-color: var(--panel-bg);
+  --el-table-tr-bg-color: var(--panel-bg);
+  --el-table-text-color: var(--text-primary);
+  font-size: 13px;
+}
+
+.el-table th.el-table__cell {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.el-drawer {
+  --el-drawer-bg-color: var(--panel-bg);
+  background-color: var(--panel-bg);
+  color: var(--text-primary);
+}
+
+.el-drawer__header {
+  margin-bottom: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary);
+}
+
+.el-drawer__body {
+  padding: 0;
+  background-color: var(--panel-bg);
+  color: var(--text-primary);
+}
+
+.task-drawer .el-drawer__body {
+  overflow: hidden;
+}
+
+.task-drawer .info-cards {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.el-loading-mask {
+  background-color: color-mix(in srgb, var(--panel-bg) 75%, transparent);
+}
+
+.el-popover.el-popper {
+  --el-popover-bg-color: var(--panel-bg);
+  --el-popover-border-color: var(--border-color);
+  --el-popover-title-text-color: var(--text-primary);
+  color: var(--text-primary);
+}
+
+.el-date-picker,
+.el-picker-panel {
+  --el-datepicker-text-color: var(--text-primary);
+  --el-datepicker-off-text-color: var(--text-tertiary);
+  --el-datepicker-header-text-color: var(--text-primary);
+  --el-datepicker-icon-color: var(--text-secondary);
+  --el-datepicker-border-color: var(--border-color);
+  --el-datepicker-inner-border-color: var(--border-light);
+  --el-datepicker-inrange-bg-color: var(--primary-light);
+  --el-datepicker-inrange-hover-bg-color: var(--primary-light);
+}
+
+.due-date-popover.el-popover.el-popper {
+  min-width: 380px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+}
+
+.due-date-popover .el-picker-panel,
+.due-date-popover .el-date-picker {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.due-date-popover .el-picker-panel__body {
+  width: 100%;
+}
+
+.due-date-popover .el-date-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.tag-picker-popover.el-popover.el-popper {
+  min-width: 300px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+}
+
+.tag-picker-popover .tag-inline-select {
+  width: 100%;
+}
+
+.tiptap-editor {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  min-height: 280px;
+  padding: 12px 16px;
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+}
+
+.tiptap-editor .ProseMirror {
+  outline: none;
+  min-height: 240px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.tiptap-editor .ProseMirror img {
+  max-width: 100%;
+  border-radius: 4px;
+}

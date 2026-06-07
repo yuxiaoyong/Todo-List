@@ -1,0 +1,1 @@
+ALTER TABLE todos ADD COLUMN assignee TEXT NOT NULL DEFAULT '自己';
