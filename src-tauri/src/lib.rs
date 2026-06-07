@@ -1,6 +1,7 @@
 mod commands;
 mod data;
-mod db;
+pub mod db;
+pub mod demo_seed;
 mod lunar;
 mod recurrence;
 mod email_gateway;
@@ -323,6 +324,7 @@ pub fn run() {
             commands::data_restore_backup,
             commands::data_export_json,
             commands::data_import_json,
+            commands::data_reset_demo,
             commands::email_gateway_get_config,
             commands::email_gateway_save_config,
             commands::email_gateway_send_test,

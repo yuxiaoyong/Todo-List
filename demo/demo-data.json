@@ -1,0 +1,494 @@
+{
+  "version": 1,
+  "exportedAt": "2026-06-07T20:13:32+08:00",
+  "categories": [
+    {
+      "id": 1,
+      "name": "工作",
+      "color": "#1677ff",
+      "icon": null,
+      "sortOrder": 0,
+      "createdAt": "2026-05-08T20:13:32+08:00",
+      "todoCount": 5,
+      "incompleteCount": 4
+    },
+    {
+      "id": 2,
+      "name": "生活",
+      "color": "#52c41a",
+      "icon": null,
+      "sortOrder": 1,
+      "createdAt": "2026-05-08T20:13:32+08:00",
+      "todoCount": 3,
+      "incompleteCount": 3
+    },
+    {
+      "id": 3,
+      "name": "学习",
+      "color": "#722ed1",
+      "icon": null,
+      "sortOrder": 2,
+      "createdAt": "2026-05-08T20:13:32+08:00",
+      "todoCount": 2,
+      "incompleteCount": 2
+    }
+  ],
+  "tags": [
+    {
+      "id": 1,
+      "name": "紧急",
+      "color": "#f5222d",
+      "createdAt": "2026-05-08T20:13:32+08:00",
+      "todoCount": 2
+    },
+    {
+      "id": 2,
+      "name": "本周",
+      "color": "#fa8c16",
+      "createdAt": "2026-05-08T20:13:32+08:00",
+      "todoCount": 3
+    },
+    {
+      "id": 3,
+      "name": "会议",
+      "color": "#13c2c2",
+      "createdAt": "2026-05-08T20:13:32+08:00",
+      "todoCount": 2
+    },
+    {
+      "id": 4,
+      "name": "生日",
+      "color": "#eb2f96",
+      "createdAt": "2026-05-08T20:13:32+08:00",
+      "todoCount": 1
+    }
+  ],
+  "kanbanColumns": [
+    {
+      "id": 1,
+      "name": "待办",
+      "color": "#8c8c8c",
+      "subtitle": "尚未开始",
+      "sortOrder": 0,
+      "createdAt": "2026-05-08T20:13:32+08:00",
+      "todoCount": 4
+    },
+    {
+      "id": 2,
+      "name": "进行中",
+      "color": "#1677ff",
+      "subtitle": "正在推进",
+      "sortOrder": 1,
+      "createdAt": "2026-05-08T20:13:32+08:00",
+      "todoCount": 3
+    },
+    {
+      "id": 3,
+      "name": "待验收",
+      "color": "#52c41a",
+      "subtitle": "等待确认",
+      "sortOrder": 2,
+      "createdAt": "2026-05-08T20:13:32+08:00",
+      "todoCount": 1
+    }
+  ],
+  "todos": [
+    {
+      "id": 1,
+      "title": "制定 Q3 产品路线图",
+      "contentText": "梳理核心功能优先级，输出路线图文档并与团队评审确认。",
+      "completed": false,
+      "priority": "high",
+      "startDate": "2026-06-04",
+      "dueDate": "2026-06-17",
+      "categoryId": 1,
+      "categoryName": "工作",
+      "categoryColor": "#1677ff",
+      "sortOrder": 0,
+      "pinned": true,
+      "assignee": "自己",
+      "kanbanColumnId": 2,
+      "kanbanColumnName": "进行中",
+      "kanbanColumnColor": "#1677ff",
+      "createdAt": "2026-05-24T20:13:32+08:00",
+      "updatedAt": "2026-06-05T20:13:32+08:00",
+      "tagIds": [
+        1,
+        2
+      ],
+      "tagNames": [
+        "紧急",
+        "本周"
+      ],
+      "tagColors": [
+        "#f5222d",
+        "#fa8c16"
+      ],
+      "contentHtml": "<p>本季度重点：</p><ul><li>任务详情与提醒体验优化</li><li>看板与列表交互统一</li><li>数据备份与迁移完善</li></ul>",
+      "subtasks": [
+        {
+          "id": 1,
+          "todoId": 1,
+          "title": "收集各模块需求清单",
+          "completed": true,
+          "sortOrder": 0,
+          "createdAt": "2026-06-02T20:13:32+08:00",
+          "updatedAt": "2026-06-06T20:13:32+08:00"
+        },
+        {
+          "id": 2,
+          "todoId": 1,
+          "title": "完成路线图初稿",
+          "completed": false,
+          "sortOrder": 1,
+          "createdAt": "2026-06-02T20:13:32+08:00",
+          "updatedAt": "2026-06-06T20:13:32+08:00"
+        },
+        {
+          "id": 3,
+          "todoId": 1,
+          "title": "组织评审会议",
+          "completed": false,
+          "sortOrder": 2,
+          "createdAt": "2026-06-02T20:13:32+08:00",
+          "updatedAt": "2026-06-06T20:13:32+08:00"
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "id": 2,
+      "title": "提交本周工作周报",
+      "contentText": "汇总本周完成事项、风险与下周计划，周五前提交。",
+      "completed": false,
+      "priority": "medium",
+      "startDate": "2026-05-31",
+      "dueDate": "2026-06-09",
+      "categoryId": 1,
+      "categoryName": "工作",
+      "categoryColor": "#1677ff",
+      "sortOrder": 1,
+      "pinned": false,
+      "assignee": "自己",
+      "kanbanColumnId": 1,
+      "kanbanColumnName": "待办",
+      "kanbanColumnColor": "#8c8c8c",
+      "createdAt": "2026-05-25T20:13:32+08:00",
+      "updatedAt": "2026-06-05T20:13:32+08:00",
+      "tagIds": [
+        2
+      ],
+      "tagNames": [
+        "本周"
+      ],
+      "tagColors": [
+        "#fa8c16"
+      ],
+      "contentHtml": "<p>周报需包含：关键进展、阻塞问题、下周三项重点。</p>",
+      "subtasks": [],
+      "attachments": []
+    },
+    {
+      "id": 3,
+      "title": "团队周会准备",
+      "contentText": "整理议程、同步项目进度，并提前发送会议材料。",
+      "completed": false,
+      "priority": "medium",
+      "startDate": "2026-06-07",
+      "dueDate": "2026-06-11",
+      "categoryId": 1,
+      "categoryName": "工作",
+      "categoryColor": "#1677ff",
+      "sortOrder": 2,
+      "pinned": false,
+      "assignee": "自己",
+      "kanbanColumnId": 2,
+      "kanbanColumnName": "进行中",
+      "kanbanColumnColor": "#1677ff",
+      "createdAt": "2026-05-26T20:13:32+08:00",
+      "updatedAt": "2026-06-05T20:13:32+08:00",
+      "tagIds": [
+        2,
+        3
+      ],
+      "tagNames": [
+        "本周",
+        "会议"
+      ],
+      "tagColors": [
+        "#fa8c16",
+        "#13c2c2"
+      ],
+      "contentHtml": "<p>议程建议：上周回顾 / 本周目标 / 风险同步 / 开放讨论。</p>",
+      "subtasks": [
+        {
+          "id": 4,
+          "todoId": 3,
+          "title": "更新项目进度表",
+          "completed": false,
+          "sortOrder": 0,
+          "createdAt": "2026-06-02T20:13:32+08:00",
+          "updatedAt": "2026-06-06T20:13:32+08:00"
+        },
+        {
+          "id": 5,
+          "todoId": 3,
+          "title": "发送会议邀请与材料",
+          "completed": false,
+          "sortOrder": 1,
+          "createdAt": "2026-06-02T20:13:32+08:00",
+          "updatedAt": "2026-06-06T20:13:32+08:00"
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "id": 4,
+      "title": "妈妈生日提醒（农历）",
+      "contentText": "提前准备礼物和祝福，农历生日当天早上提醒。",
+      "completed": false,
+      "priority": "high",
+      "startDate": null,
+      "dueDate": "1990-08-15",
+      "categoryId": 2,
+      "categoryName": "生活",
+      "categoryColor": "#52c41a",
+      "sortOrder": 3,
+      "pinned": true,
+      "assignee": "自己",
+      "kanbanColumnId": 1,
+      "kanbanColumnName": "待办",
+      "kanbanColumnColor": "#8c8c8c",
+      "createdAt": "2026-05-27T20:13:32+08:00",
+      "updatedAt": "2026-06-05T20:13:32+08:00",
+      "tagIds": [
+        4
+      ],
+      "tagNames": [
+        "生日"
+      ],
+      "tagColors": [
+        "#eb2f96"
+      ],
+      "recurrenceJson": {
+        "enabled": true,
+        "freq": "yearly",
+        "interval": 1,
+        "anchor": "dueDate",
+        "calendar": "lunar",
+        "lunarMonth": 8,
+        "lunarDay": 15,
+        "isLeapMonth": false,
+        "firstReminderDate": null,
+        "time": "09:00",
+        "advanceMinutes": 1440,
+        "onComplete": "reschedule"
+      },
+      "contentHtml": "<p>提醒事项：订蛋糕、准备红包、确认当天通话时间。</p>",
+      "subtasks": [],
+      "attachments": []
+    },
+    {
+      "id": 5,
+      "title": "预约年度健康体检",
+      "contentText": "选择体检机构与套餐，预约周末时段。",
+      "completed": false,
+      "priority": "high",
+      "startDate": "2026-06-08",
+      "dueDate": "2026-06-22",
+      "categoryId": 2,
+      "categoryName": "生活",
+      "categoryColor": "#52c41a",
+      "sortOrder": 4,
+      "pinned": false,
+      "assignee": "自己",
+      "kanbanColumnId": 1,
+      "kanbanColumnName": "待办",
+      "kanbanColumnColor": "#8c8c8c",
+      "createdAt": "2026-05-28T20:13:32+08:00",
+      "updatedAt": "2026-06-05T20:13:32+08:00",
+      "tagIds": [
+        1
+      ],
+      "tagNames": [
+        "紧急"
+      ],
+      "tagColors": [
+        "#f5222d"
+      ],
+      "contentHtml": "<p>重点关注：血脂、颈椎、眼科检查。</p>",
+      "subtasks": [],
+      "attachments": []
+    },
+    {
+      "id": 6,
+      "title": "阅读《深入理解计算机系统》",
+      "contentText": "每周至少阅读一章，并整理读书笔记。",
+      "completed": false,
+      "priority": "low",
+      "startDate": "2026-05-24",
+      "dueDate": "2026-07-07",
+      "categoryId": 3,
+      "categoryName": "学习",
+      "categoryColor": "#722ed1",
+      "sortOrder": 5,
+      "pinned": false,
+      "assignee": "自己",
+      "kanbanColumnId": 2,
+      "kanbanColumnName": "进行中",
+      "kanbanColumnColor": "#1677ff",
+      "createdAt": "2026-05-29T20:13:32+08:00",
+      "updatedAt": "2026-06-05T20:13:32+08:00",
+      "tagIds": [],
+      "tagNames": [],
+      "tagColors": [],
+      "contentHtml": "<p>当前进度：第 3 章「程序的机器级表示」。</p>",
+      "subtasks": [
+        {
+          "id": 6,
+          "todoId": 6,
+          "title": "完成第 3 章阅读",
+          "completed": false,
+          "sortOrder": 0,
+          "createdAt": "2026-06-02T20:13:32+08:00",
+          "updatedAt": "2026-06-06T20:13:32+08:00"
+        },
+        {
+          "id": 7,
+          "todoId": 6,
+          "title": "整理本章笔记",
+          "completed": false,
+          "sortOrder": 1,
+          "createdAt": "2026-06-02T20:13:32+08:00",
+          "updatedAt": "2026-06-06T20:13:32+08:00"
+        }
+      ],
+      "attachments": []
+    },
+    {
+      "id": 7,
+      "title": "更新个人简历",
+      "contentText": "补充近期项目成果，优化项目描述与技能关键词。",
+      "completed": false,
+      "priority": "medium",
+      "startDate": null,
+      "dueDate": "2026-06-27",
+      "categoryId": 3,
+      "categoryName": "学习",
+      "categoryColor": "#722ed1",
+      "sortOrder": 6,
+      "pinned": false,
+      "assignee": "自己",
+      "kanbanColumnId": null,
+      "kanbanColumnName": null,
+      "kanbanColumnColor": null,
+      "createdAt": "2026-05-30T20:13:32+08:00",
+      "updatedAt": "2026-06-05T20:13:32+08:00",
+      "tagIds": [],
+      "tagNames": [],
+      "tagColors": [],
+      "contentHtml": "<p>需更新：Todo List 桌面端项目、数据迁移与提醒模块相关经历。</p>",
+      "subtasks": [],
+      "attachments": []
+    },
+    {
+      "id": 8,
+      "title": "缴纳第三季度物业费",
+      "contentText": "通过物业 App 完成缴费并保存电子凭证。",
+      "completed": false,
+      "priority": "medium",
+      "startDate": "2026-06-12",
+      "dueDate": "2026-06-19",
+      "categoryId": 2,
+      "categoryName": "生活",
+      "categoryColor": "#52c41a",
+      "sortOrder": 7,
+      "pinned": false,
+      "assignee": "自己",
+      "kanbanColumnId": 3,
+      "kanbanColumnName": "待验收",
+      "kanbanColumnColor": "#52c41a",
+      "createdAt": "2026-05-31T20:13:32+08:00",
+      "updatedAt": "2026-06-05T20:13:32+08:00",
+      "tagIds": [],
+      "tagNames": [],
+      "tagColors": [],
+      "contentHtml": "<p>金额以物业通知为准，缴费后截图存档。</p>",
+      "subtasks": [],
+      "attachments": []
+    },
+    {
+      "id": 9,
+      "title": "整理客户反馈并输出改进清单",
+      "contentText": "汇总近两周用户反馈，按优先级整理改进项。",
+      "completed": true,
+      "priority": "medium",
+      "startDate": "2026-05-28",
+      "dueDate": "2026-06-06",
+      "categoryId": 1,
+      "categoryName": "工作",
+      "categoryColor": "#1677ff",
+      "sortOrder": 8,
+      "pinned": false,
+      "assignee": "自己",
+      "kanbanColumnId": 3,
+      "kanbanColumnName": "待验收",
+      "kanbanColumnColor": "#52c41a",
+      "createdAt": "2026-06-01T20:13:32+08:00",
+      "updatedAt": "2026-06-05T20:13:32+08:00",
+      "tagIds": [
+        3
+      ],
+      "tagNames": [
+        "会议"
+      ],
+      "tagColors": [
+        "#13c2c2"
+      ],
+      "contentHtml": "<p>已完成初版清单，待产品负责人确认后归档。</p>",
+      "subtasks": [],
+      "attachments": []
+    },
+    {
+      "id": 10,
+      "title": "端午家庭聚会采购",
+      "contentText": "采购水果、茶叶与礼盒，农历五月初五前完成。",
+      "completed": false,
+      "priority": "low",
+      "startDate": "2026-06-10",
+      "dueDate": "2026-07-02",
+      "categoryId": 2,
+      "categoryName": "生活",
+      "categoryColor": "#52c41a",
+      "sortOrder": 9,
+      "pinned": false,
+      "assignee": "自己",
+      "kanbanColumnId": 1,
+      "kanbanColumnName": "待办",
+      "kanbanColumnColor": "#8c8c8c",
+      "createdAt": "2026-06-02T20:13:32+08:00",
+      "updatedAt": "2026-06-05T20:13:32+08:00",
+      "tagIds": [],
+      "tagNames": [],
+      "tagColors": [],
+      "recurrenceJson": {
+        "enabled": true,
+        "freq": "yearly",
+        "interval": 1,
+        "anchor": "dueDate",
+        "calendar": "lunar",
+        "lunarMonth": 5,
+        "lunarDay": 5,
+        "isLeapMonth": false,
+        "firstReminderDate": null,
+        "time": "08:30",
+        "advanceMinutes": 1440,
+        "onComplete": "reschedule"
+      },
+      "contentHtml": "<p>采购清单：粽子礼盒、水果篮、茶叶。</p>",
+      "subtasks": [],
+      "attachments": []
+    }
+  ],
+  "settings": {}
+}

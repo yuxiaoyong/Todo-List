@@ -27,6 +27,13 @@ const MIGRATIONS: &[(i32, &str)] = &[
     (11, include_str!("migrations/011_start_date.sql")),
 ];
 
+pub fn open_standalone(db_path: &std::path::Path) -> AppResult<Connection> {
+    if let Some(parent) = db_path.parent() {
+        std::fs::create_dir_all(parent)?;
+    }
+    open_connection(&db_path.to_path_buf())
+}
+
 pub fn init(app: &AppHandle) -> AppResult<()> {
     let data_dir = app
         .path()

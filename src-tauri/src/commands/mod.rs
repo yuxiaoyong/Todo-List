@@ -451,6 +451,13 @@ pub fn email_gateway_send_test() -> AppResult<()> {
 }
 
 #[tauri::command]
+pub async fn data_reset_demo(app: AppHandle) -> AppResult<crate::db::repositories::DataImportResult> {
+    let result = crate::data::reset_demo_data(&app)?;
+    let _ = app.emit("todo-changed", ());
+    Ok(result)
+}
+
+#[tauri::command]
 pub async fn data_import_json(app: AppHandle) -> AppResult<Option<crate::db::repositories::DataImportResult>> {
     let picked = rfd::AsyncFileDialog::new()
         .add_filter("JSON 数据", &["json"])

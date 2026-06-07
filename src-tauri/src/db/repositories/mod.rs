@@ -1365,6 +1365,22 @@ pub struct DataImportResult {
     pub todos_skipped: i32,
 }
 
+pub fn clear_all_user_data(conn: &Connection) -> AppResult<()> {
+    let tx = conn.unchecked_transaction()?;
+    tx.execute_batch(
+        "DELETE FROM todo_tags;
+         DELETE FROM subtasks;
+         DELETE FROM attachments;
+         DELETE FROM todos;
+         DELETE FROM tags;
+         DELETE FROM categories;
+         DELETE FROM kanban_columns;",
+    )?;
+    tx.commit()?;
+    ensure_search_index(conn)?;
+    Ok(())
+}
+
 pub fn export_all_data(conn: &Connection) -> AppResult<DataExportSnapshot> {
     let categories = list_categories(conn)?;
     let tags = list_tags(conn)?;

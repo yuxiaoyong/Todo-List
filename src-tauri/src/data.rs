@@ -10,7 +10,7 @@ use zip::write::SimpleFileOptions;
 use zip::ZipWriter;
 
 use crate::db::repositories::{
-    export_all_data, import_all_data, DataExportSnapshot, DataImportResult,
+    clear_all_user_data, export_all_data, import_all_data, DataExportSnapshot, DataImportResult,
 };
 use crate::db::{
     app_data_dir, attachments_dir, checkpoint, connect, db_file_path, disconnect, remove_db_sidecars,
@@ -190,6 +190,19 @@ pub fn import_json(_app: &AppHandle, source_path: &Path) -> AppResult<DataImport
     let snapshot: DataExportSnapshot = serde_json::from_str(&raw)
         .map_err(|_| AppError::msg("JSON 格式无效，请使用本应用导出的文件"))?;
     with_conn(|conn| import_all_data(conn, snapshot))
+}
+
+pub fn reset_demo_data(app: &AppHandle) -> AppResult<DataImportResult> {
+    let attachments = attachments_dir(app)?;
+    if attachments.exists() {
+        fs::remove_dir_all(&attachments)?;
+    }
+    fs::create_dir_all(&attachments)?;
+    let snapshot = crate::demo_seed::build_demo_snapshot();
+    with_conn(|conn| {
+        clear_all_user_data(conn)?;
+        import_all_data(conn, snapshot)
+    })
 }
 
 fn zip_add_file<W: Write + std::io::Seek>(

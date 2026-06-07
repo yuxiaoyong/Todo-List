@@ -161,4 +161,4 @@ flowchart LR
 | 通知调度 | `src-tauri/src/notifications.rs` |
 | 数据备份 | `src-tauri/src/data.rs` |
 | 设置 | `src/components/settings/SettingsDialog.vue` |
-| 改善备忘 | `Improvement.md` |
+| 改善备忘 | [Improvement.md](./Improvement.md) |

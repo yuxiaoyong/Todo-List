@@ -2,12 +2,18 @@
 name = "todo-list"
 version = "0.1.0"
 description = "Todo List Desktop App"
-authors = ["you"]
+authors = ["yuxiaoyong"]
+license = "MIT"
 edition = "2021"
+default-run = "todo-list"
 
 [lib]
 name = "todo_list_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "seed-demo"
+path = "src/bin/seed-demo.rs"
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
