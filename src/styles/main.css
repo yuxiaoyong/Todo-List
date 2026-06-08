@@ -255,3 +255,22 @@ html[data-window-opacity="on"] #app {
   max-width: 100%;
   border-radius: 4px;
 }
+
+/* Element Plus 弹窗：WebView2 下避免遮罩/层级导致无法点击 */
+.el-overlay {
+  z-index: 3999 !important;
+}
+
+.app-dialog.el-dialog,
+.el-dialog.app-dialog {
+  z-index: 4000 !important;
+}
+
+.el-message {
+  z-index: 5000 !important;
+}
+
+/* 任务详情抽屉打开时，teleported 的下拉/日期面板需高于 drawer overlay (3999) */
+body:has(.task-drawer) .el-popper {
+  z-index: 4100 !important;
+}

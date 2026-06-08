@@ -25,9 +25,11 @@ fn main() {
         .unwrap_or_else(default_db_path);
 
     if !db_path.exists() {
-        eprintln!("Database not found: {}", db_path.display());
-        eprintln!("Start the app once to initialize storage, or pass a custom db path.");
-        std::process::exit(1);
+        eprintln!(
+            "Database not found at {} — creating a new database first.",
+            db_path.display()
+        );
+        open_standalone(&db_path).expect("failed to initialize database");
     }
 
     let snapshot = build_demo_snapshot();

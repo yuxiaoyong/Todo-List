@@ -17,11 +17,11 @@
 
 **Windows 用户**推荐从 [Releases](https://github.com/yuxiaoyong/Todo-List/releases) 下载预编译安装包（`.msi` / `.exe`），无需自行编译。
 
-| 项目 | 说明 |
-|------|------|
-| 支持系统 | **Windows 10 / 11**（主要开发与测试平台） |
-| 运行时 | [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/)（Win10/11 通常已预装） |
-| 其他平台 | 可尝试 `npm run tauri build` 自行编译，**功能未充分验证** |
+| 项目     | 说明                                                                                        |
+| -------- | ------------------------------------------------------------------------------------------- |
+| 支持系统 | **Windows 10 / 11**（主要开发与测试平台）                                                   |
+| 运行时   | [WebView2](https://developer.microsoft.com/microsoft-edge/webview2/)（Win10/11 通常已预装） |
+| 其他平台 | 可尝试 `npm run tauri build` 自行编译，**功能未充分验证**                                   |
 
 若 Releases 暂无对应版本，请参考下方 [从源码构建](#从源码构建)。
 
@@ -71,7 +71,7 @@
 - 搜索：SQLite FTS5 + jieba 中文分词，支持组合筛选
 - 桌面集成：系统托盘、单实例、全局快捷键、快速捕获、极简模式（边缘吸附）
 - 提醒：系统通知、邮件通知（SMTP）、到期与周期提醒、可配置提前提醒与重复频率
-- 数据：Zip 备份 / 恢复、JSON 导出 / 导入、演示数据一键重置
+- 数据：Zip 备份 / 恢复、JSON 导出 / 导入、首次启动自动演示数据、演示数据一键重置
 - 个性化：浅色 / 深色 / 跟随系统、中英文、窗口透明度、可自定义快捷键
 
 完整列表见 [Feature.md](./docs/Feature.md)；路线图见 [Plan.md](./docs/Plan.md)。
@@ -82,12 +82,12 @@
 
 ### 平台支持
 
-| 能力 | Windows | macOS / Linux |
-|------|---------|---------------|
-| 核心任务管理 | ✅ | ⚠️ 未充分测试 |
-| 系统 Toast 通知 | ✅ | ❌ 未实现 |
-| 极简边缘吸附 | ✅ | ⚠️ 部分逻辑有 fallback |
-| 窗口透明度 | ✅ | ⚠️ 未充分测试 |
+| 能力            | Windows | macOS / Linux         |
+| --------------- | ------- | --------------------- |
+| 核心任务管理    | ✅       | ⚠️ 未充分测试          |
+| 系统 Toast 通知 | ✅       | ❌ 未实现              |
+| 极简边缘吸附    | ✅       | ⚠️ 部分逻辑有 fallback |
+| 窗口透明度      | ✅       | ⚠️ 未充分测试          |
 
 ### 已知限制（非目标）
 
@@ -136,9 +136,11 @@ npm run tauri build
 
 产物位于 `src-tauri/target/release/bundle/`。
 
-### 演示数据（可选）
+### 演示数据
 
-关闭应用后执行：
+**首次安装**时会自动导入示例分类、标签与任务，便于快速体验。
+
+若需在已有环境中重置为演示数据，请先关闭应用，再执行：
 
 ```bash
 cd src-tauri
@@ -161,18 +163,18 @@ cargo run --bin seed-demo
 
 **可自定义**（设置 → 快捷键）：
 
-| 默认按键 | 功能 |
-|----------|------|
-| `Ctrl+Shift+N` | 打开快速捕获窗口 |
+| 默认按键       | 功能                  |
+| -------------- | --------------------- |
+| `Ctrl+Shift+N` | 打开快速捕获窗口      |
 | `Ctrl+Shift+H` | 主窗口 / 极简模式切换 |
 
 **应用内固定**：
 
-| 按键 | 功能 |
-|------|------|
-| `Enter` | 快速输入栏创建任务 |
-| `Shift+Enter` | 创建并打开详情 |
-| `Esc` | 快速捕获取消 |
+| 按键          | 功能               |
+| ------------- | ------------------ |
+| `Enter`       | 快速输入栏创建任务 |
+| `Shift+Enter` | 创建并打开详情     |
+| `Esc`         | 快速捕获取消       |
 
 ---
 
@@ -205,9 +207,25 @@ cargo run --bin seed-demo
 </details>
 
 <details>
+<summary><strong>能打开但无法新增分类、标签或任务？</strong></summary>
+
+1. 查看界面是否弹出红色错误提示（自 v0.1.0 起，写入失败会显式提示）
+2. 打开 `%APPDATA%/com.tx.todo-list/app.log` 查看详细错误
+3. 确认数据目录可写（勿将 `%APPDATA%` 放在只读盘或受管控目录）
+4. 若设置 / 新建任务弹窗无法点击，请更新到最新版（已修复 WebView2 下弹窗层级问题）
+5. 仍无法解决时，在 [Issues](https://github.com/yuxiaoyong/Todo-List/issues) 附上 `app.log` 与复现步骤
+</details>
+
+<details>
 <summary><strong>seed-demo 会覆盖现有数据吗？</strong></summary>
 
-会。`cargo run --bin seed-demo` 会用演示快照**替换**当前数据库，请先备份。
+会。`cargo run --bin seed-demo` 会用演示快照**替换**当前数据库，请先备份。首次安装无需运行此命令，应用会自动导入演示数据。
+</details>
+
+<details>
+<summary><strong>操作失败但没有明显提示？</strong></summary>
+
+写入失败会弹出错误提示，并记录到 `%APPDATA%/com.tx.todo-list/app.log`。启动时也会自检数据目录是否可写。
 </details>
 
 ---
@@ -223,16 +241,17 @@ cargo run --bin seed-demo
 
 ## 文档索引
 
-| 文档 | 说明 |
-|------|------|
-| [Feature.md](./docs/Feature.md) | 当前已实现的功能清单 |
-| [Plan.md](./docs/Plan.md) | 后续打磨与进阶规划 |
-| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | 架构、模块、迁移与数据流 |
-| [CONTRIBUTING.md](./CONTRIBUTING.md) | 贡献指南 |
-| [Requirement.md](./docs/Requirement.md) | 产品定位与需求说明 |
+| 文档                                          | 说明                      |
+| --------------------------------------------- | ------------------------- |
+| [Feature.md](./docs/Feature.md)               | 当前已实现的功能清单      |
+| [CHANGELOG.md](./CHANGELOG.md)                | 版本变更记录              |
+| [Plan.md](./docs/Plan.md)                     | 后续打磨与进阶规划        |
+| [ARCHITECTURE.md](./docs/ARCHITECTURE.md)     | 架构、模块、迁移与数据流  |
+| [CONTRIBUTING.md](./CONTRIBUTING.md)          | 贡献指南                  |
+| [Requirement.md](./docs/Requirement.md)       | 产品定位与需求说明        |
 | [Requirement-AI.md](./docs/Requirement-AI.md) | AI 可选增强模块（规划中） |
-| [Improvement.md](./docs/Improvement.md) | 改善项备忘（开发向） |
-| [demo-data.md](./docs/demo-data.md) | 演示数据说明与重置方法 |
+| [Improvement.md](./docs/Improvement.md)       | 改善项备忘（开发向）      |
+| [demo-data.md](./docs/demo-data.md)           | 演示数据说明与重置方法    |
 
 ---
 

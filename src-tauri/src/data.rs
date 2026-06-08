@@ -192,7 +192,7 @@ pub fn import_json(_app: &AppHandle, source_path: &Path) -> AppResult<DataImport
     with_conn(|conn| import_all_data(conn, snapshot))
 }
 
-pub fn reset_demo_data(app: &AppHandle) -> AppResult<DataImportResult> {
+fn import_demo_snapshot(app: &AppHandle) -> AppResult<DataImportResult> {
     let attachments = attachments_dir(app)?;
     if attachments.exists() {
         fs::remove_dir_all(&attachments)?;
@@ -203,6 +203,15 @@ pub fn reset_demo_data(app: &AppHandle) -> AppResult<DataImportResult> {
         clear_all_user_data(conn)?;
         import_all_data(conn, snapshot)
     })
+}
+
+/// 首次启动（新建数据库）时写入演示数据。
+pub fn seed_demo_on_first_launch(app: &AppHandle) -> AppResult<DataImportResult> {
+    import_demo_snapshot(app)
+}
+
+pub fn reset_demo_data(app: &AppHandle) -> AppResult<DataImportResult> {
+    import_demo_snapshot(app)
 }
 
 fn zip_add_file<W: Write + std::io::Seek>(

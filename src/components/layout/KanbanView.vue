@@ -508,6 +508,10 @@ async function onTogglePin(todo: TodoSummary) {
       :title="editingColumnId ? t('kanban.editColumn') : t('kanban.addColumn')"
       width="420px"
       destroy-on-close
+      append-to-body
+      align-center
+      :z-index="4000"
+      class="app-dialog"
     >
       <el-form label-width="72px">
         <el-form-item :label="t('kanban.name')" required>

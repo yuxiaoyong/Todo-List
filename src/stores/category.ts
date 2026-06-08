@@ -29,5 +29,15 @@ export const useCategoryStore = defineStore("category", {
       await categoryApi.delete(id);
       await this.fetchAll();
     },
+    async reorder(ids: number[]) {
+      await categoryApi.reorder(ids);
+      const byId = new Map(this.categories.map((category) => [category.id, category]));
+      this.categories = ids
+        .map((id, index) => {
+          const category = byId.get(id);
+          return category ? { ...category, sortOrder: index } : null;
+        })
+        .filter((category): category is Category => category !== null);
+    },
   },
 });

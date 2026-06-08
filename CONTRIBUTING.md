@@ -5,7 +5,7 @@
 ## 开始之前
 
 1. 阅读 [README.md](./README.md) 了解项目定位与构建方式
-2. 查看 [Feature.md](./docs/Feature.md) 确认功能是否已实现
+2. 查看 [Feature.md](./docs/Feature.md) 与 [CHANGELOG.md](./CHANGELOG.md) 确认功能与版本
 3. 查看 [Plan.md](./docs/Plan.md) 了解路线图，避免重复劳动
 
 ## 报告问题
@@ -15,7 +15,7 @@
 - **环境**：Windows 版本、应用版本（或 commit hash）
 - **复现步骤**：从启动到出问题的完整操作
 - **期望行为** vs **实际行为**
-- **截图 / 日志**（如有）
+- **截图 / 日志**（如有）：写入失败时查看 `%APPDATA%/com.tx.todo-list/app.log`；启动自检失败时界面会提示数据目录路径
 
 ## 提交代码
 

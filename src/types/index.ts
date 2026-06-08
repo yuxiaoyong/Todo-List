@@ -13,6 +13,7 @@ export interface Tag {
   id: number;
   name: string;
   color: string;
+  sortOrder: number;
   createdAt: string;
   todoCount: number;
 }

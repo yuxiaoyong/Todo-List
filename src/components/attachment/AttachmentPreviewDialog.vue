@@ -76,9 +76,11 @@ function openLocal() {
     v-model="dialogVisible"
     :title="title"
     width="860px"
-    class="attachment-preview-dialog"
+    class="attachment-preview-dialog app-dialog"
     destroy-on-close
+    append-to-body
     align-center
+    :z-index="4000"
   >
     <div v-loading="loading" class="attachment-preview-dialog__body">
       <div v-if="loadError" class="attachment-preview-dialog__error">

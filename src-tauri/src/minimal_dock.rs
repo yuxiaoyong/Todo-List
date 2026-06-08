@@ -148,6 +148,12 @@ fn handle_moved(window: &WebviewWindow) -> Result<(), String> {
     let prev_pos = state.last_pos.lock().clone();
     *state.last_pos.lock() = Some(pos);
 
+    let win_w = size.width as i32;
+    if stored_side != DockSide::None && is_undocking(&work, scale, pos, win_w) {
+        clear_dock_state(window);
+        return Ok(());
+    }
+
     if stored_side != DockSide::None
         && should_restore_stored_dock(stored_side, &work, scale, pos, &size, prev_pos)
     {
@@ -158,6 +164,22 @@ fn handle_moved(window: &WebviewWindow) -> Result<(), String> {
     snap_to_edge(window, &work, scale, pos, size, prev_pos)
 }
 
+fn is_undocking(
+    work: &tauri::Monitor,
+    scale: f64,
+    pos: PhysicalPosition<i32>,
+    win_w: i32,
+) -> bool {
+    detect_side(work, scale, pos, win_w) == DockSide::None
+}
+
+fn clear_dock_state(window: &WebviewWindow) {
+    let state = window.state::<MinimalDockState>();
+    *state.side.lock() = DockSide::None;
+    *state.hidden.lock() = false;
+    clear_persisted_dock_state(window);
+}
+
 fn should_restore_stored_dock(
     stored: DockSide,
     work: &tauri::Monitor,
@@ -166,11 +188,20 @@ fn should_restore_stored_dock(
     size: &tauri::PhysicalSize<u32>,
     prev_pos: Option<PhysicalPosition<i32>>,
 ) -> bool {
+    let win_w = size.width as i32;
+    let detected = detect_side(work, scale, pos, win_w);
+
+    // User dragged away from edges or toward the opposite edge — don't snap back.
+    if detected == DockSide::None || detected != stored {
+        return false;
+    }
+
     let work_w = work.work_area().size.width as i32;
     if prev_pos.is_some_and(|prev| is_suspicious_teleport(prev, pos, work_w)) {
         return true;
     }
-    is_at_wrong_dock_side(work, scale, pos, size.width as i32, stored)
+
+    is_at_wrong_dock_x(work, scale, pos, win_w, stored)
 }
 
 fn snap_to_edge(
@@ -423,18 +454,13 @@ fn is_minimized_position(pos: PhysicalPosition<i32>) -> bool {
     pos.x <= WINDOWS_MINIMIZED_COORD || pos.y <= WINDOWS_MINIMIZED_COORD
 }
 
-fn is_at_wrong_dock_side(
+fn is_at_wrong_dock_x(
     work: &tauri::Monitor,
     scale: f64,
     pos: PhysicalPosition<i32>,
     win_w: i32,
     stored: DockSide,
 ) -> bool {
-    let detected = detect_side(work, scale, pos, win_w);
-    if detected != DockSide::None && detected != stored {
-        return true;
-    }
-
     let expected_x = visible_x(stored, work, win_w);
     (pos.x - expected_x).abs() > snap_threshold(scale) * 2
 }

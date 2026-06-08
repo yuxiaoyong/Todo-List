@@ -29,5 +29,15 @@ export const useTagStore = defineStore("tag", {
       await tagApi.delete(id);
       await this.fetchAll();
     },
+    async reorder(ids: number[]) {
+      await tagApi.reorder(ids);
+      const byId = new Map(this.tags.map((tag) => [tag.id, tag]));
+      this.tags = ids
+        .map((id, index) => {
+          const tag = byId.get(id);
+          return tag ? { ...tag, sortOrder: index } : null;
+        })
+        .filter((tag): tag is Tag => tag !== null);
+    },
   },
 });

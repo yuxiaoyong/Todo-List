@@ -296,19 +296,15 @@ async function resetShortcut(id: CustomizableShortcutId) {
 <template>
 
   <el-dialog
-
     v-model="visible"
-
     :title="t('settings.title')"
-
     width="790px"
-
     destroy-on-close
-
-    class="settings-dialog"
-
+    append-to-body
+    align-center
+    :z-index="4000"
+    class="settings-dialog app-dialog"
     @open="onDialogOpen"
-
   >
 
     <div class="settings-layout">
@@ -533,7 +529,9 @@ async function resetShortcut(id: CustomizableShortcutId) {
 
   display: flex;
 
-  min-height: 360px;
+  height: 100%;
+
+  min-height: 0;
 
   margin: -8px -4px -12px;
 
@@ -973,7 +971,25 @@ async function resetShortcut(id: CustomizableShortcutId) {
 
 <style>
 
+.settings-dialog.el-dialog,
+.el-dialog.settings-dialog {
+  height: 720px;
+  max-height: 720px;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-dialog .el-dialog__header {
+  flex-shrink: 0;
+}
+
 .settings-dialog .el-dialog__body {
+
+  flex: 1;
+
+  min-height: 0;
+
+  overflow: hidden;
 
   padding-top: 8px;
 

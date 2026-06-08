@@ -84,6 +84,11 @@ pub fn tag_delete(id: i64) -> AppResult<()> {
 }
 
 #[tauri::command]
+pub fn tag_reorder(ids: Vec<i64>) -> AppResult<()> {
+    with_conn(|conn| reorder_tags(conn, ids))
+}
+
+#[tauri::command]
 pub fn todo_list(filter: TodoListFilter) -> AppResult<Vec<TodoSummary>> {
     with_conn(|conn| list_todos(conn, filter))
 }
@@ -455,6 +460,16 @@ pub async fn data_reset_demo(app: AppHandle) -> AppResult<crate::db::repositorie
     let result = crate::data::reset_demo_data(&app)?;
     let _ = app.emit("todo-changed", ());
     Ok(result)
+}
+
+#[tauri::command]
+pub fn app_health_check(app: AppHandle) -> crate::app_log::HealthCheckResult {
+    crate::app_log::health_check(&app)
+}
+
+#[tauri::command]
+pub fn app_log(app: AppHandle, level: String, message: String) -> AppResult<()> {
+    crate::app_log::append_log(&app, &level, &message)
 }
 
 #[tauri::command]

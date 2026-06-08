@@ -49,6 +49,8 @@ async function submit() {
     uiStore.openDetail(detail.id);
     emit("update:modelValue", false);
     emit("created");
+  } catch {
+    // 错误提示由 tauriInvoke 统一处理
   } finally {
     submitting.value = false;
   }
@@ -61,6 +63,10 @@ async function submit() {
     :title="t('task.newTaskTitle')"
     width="480px"
     destroy-on-close
+    append-to-body
+    align-center
+    :z-index="4000"
+    class="app-dialog"
     @update:model-value="emit('update:modelValue', $event)"
     @keyup.enter="submit"
   >

@@ -1,3 +1,4 @@
+mod app_log;
 mod commands;
 mod data;
 pub mod db;
@@ -215,7 +216,29 @@ pub fn run() {
         })
         .manage(minimal_dock::MinimalDockState::new())
         .setup(|app| {
-            db::init(app.handle())?;
+            let is_new_db = db::init(app.handle())?;
+            if is_new_db {
+                match data::seed_demo_on_first_launch(app.handle()) {
+                    Ok(result) => {
+                        let _ = app_log::append_log(
+                            app.handle(),
+                            "info",
+                            &format!(
+                                "First launch demo seeded: {} todos",
+                                result.todos_imported
+                            ),
+                        );
+                        let _ = app.handle().emit("todo-changed", ());
+                    }
+                    Err(err) => {
+                        let _ = app_log::append_log(
+                            app.handle(),
+                            "error",
+                            &format!("First launch demo seed failed: {err}"),
+                        );
+                    }
+                }
+            }
             notifications::init_platform(app.handle());
 
             let quick_item = MenuItem::with_id(app, "quick-add", "快速添加任务", true, None::<&str>)?;
@@ -280,6 +303,7 @@ pub fn run() {
             commands::tag_create,
             commands::tag_update,
             commands::tag_delete,
+            commands::tag_reorder,
             commands::todo_list,
             commands::todo_get,
             commands::todo_create,
@@ -325,6 +349,8 @@ pub fn run() {
             commands::data_export_json,
             commands::data_import_json,
             commands::data_reset_demo,
+            commands::app_health_check,
+            commands::app_log,
             commands::email_gateway_get_config,
             commands::email_gateway_save_config,
             commands::email_gateway_send_test,

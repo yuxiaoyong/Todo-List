@@ -25,6 +25,7 @@ const MIGRATIONS: &[(i32, &str)] = &[
     (9, include_str!("migrations/009_kanban_columns.sql")),
     (10, include_str!("migrations/010_subtasks.sql")),
     (11, include_str!("migrations/011_start_date.sql")),
+    (12, include_str!("migrations/012_tag_sort_order.sql")),
 ];
 
 pub fn open_standalone(db_path: &std::path::Path) -> AppResult<Connection> {
@@ -34,17 +35,19 @@ pub fn open_standalone(db_path: &std::path::Path) -> AppResult<Connection> {
     open_connection(&db_path.to_path_buf())
 }
 
-pub fn init(app: &AppHandle) -> AppResult<()> {
+/// 初始化数据库。返回 `true` 表示本次创建了新的 `todos.db`（首次安装）。
+pub fn init(app: &AppHandle) -> AppResult<bool> {
     let data_dir = app
         .path()
         .app_data_dir()
         .map_err(|e| AppError::msg(e.to_string()))?;
     std::fs::create_dir_all(&data_dir)?;
     let db_path = data_dir.join("todos.db");
+    let is_new_db = !db_path.exists();
     let conn = open_connection(&db_path)?;
     DB.set(Mutex::new(Some(conn)))
         .map_err(|_| AppError::msg("database already initialized"))?;
-    Ok(())
+    Ok(is_new_db)
 }
 
 fn open_connection(db_path: &PathBuf) -> AppResult<Connection> {

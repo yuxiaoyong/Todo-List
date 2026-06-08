@@ -25,6 +25,7 @@ pub struct Tag {
     pub id: i64,
     pub name: String,
     pub color: String,
+    pub sort_order: i32,
     pub created_at: String,
     pub todo_count: i32,
 }
@@ -674,21 +675,22 @@ pub fn reorder_kanban_columns(conn: &Connection, ids: Vec<i64>) -> AppResult<()>
 
 pub fn list_tags(conn: &Connection) -> AppResult<Vec<Tag>> {
     let mut stmt = conn.prepare(
-        "SELECT t.id, t.name, t.color, t.created_at,
+        "SELECT t.id, t.name, t.color, t.sort_order, t.created_at,
                 COUNT(tt.todo_id) AS todo_count
          FROM tags t
          LEFT JOIN todo_tags tt ON tt.tag_id = t.id
          LEFT JOIN todos td ON td.id = tt.todo_id AND td.deleted_at IS NULL
          GROUP BY t.id
-         ORDER BY t.name",
+         ORDER BY t.sort_order, t.id",
     )?;
     let rows = stmt.query_map([], |row| {
         Ok(Tag {
             id: row.get(0)?,
             name: row.get(1)?,
             color: row.get(2)?,
-            created_at: row.get(3)?,
-            todo_count: row.get(4)?,
+            sort_order: row.get(3)?,
+            created_at: row.get(4)?,
+            todo_count: row.get(5)?,
         })
     })?;
     Ok(rows.collect::<Result<Vec<_>, _>>()?)
@@ -697,14 +699,20 @@ pub fn list_tags(conn: &Connection) -> AppResult<Vec<Tag>> {
 pub fn create_tag(conn: &Connection, input: CreateTagInput) -> AppResult<Tag> {
     let now = now_iso();
     let color = input.color.unwrap_or_else(|| "#909399".into());
+    let max_order: i32 = conn.query_row(
+        "SELECT COALESCE(MAX(sort_order), -1) FROM tags",
+        [],
+        |row| row.get(0),
+    )?;
     conn.execute(
-        "INSERT INTO tags (name, color, created_at) VALUES (?1, ?2, ?3)",
-        params![input.name, color, now],
+        "INSERT INTO tags (name, color, sort_order, created_at) VALUES (?1, ?2, ?3, ?4)",
+        params![input.name, color, max_order + 1, now],
     )?;
     Ok(Tag {
         id: conn.last_insert_rowid(),
         name: input.name,
         color,
+        sort_order: max_order + 1,
         created_at: now,
         todo_count: 0,
     })
@@ -723,6 +731,16 @@ pub fn update_tag(conn: &Connection, input: UpdateTagInput) -> AppResult<Tag> {
 
 pub fn delete_tag(conn: &Connection, id: i64) -> AppResult<()> {
     conn.execute("DELETE FROM tags WHERE id = ?1", [id])?;
+    Ok(())
+}
+
+pub fn reorder_tags(conn: &Connection, ids: Vec<i64>) -> AppResult<()> {
+    for (index, id) in ids.iter().enumerate() {
+        conn.execute(
+            "UPDATE tags SET sort_order = ?1 WHERE id = ?2",
+            params![index as i32, id],
+        )?;
+    }
     Ok(())
 }
 
