@@ -456,6 +456,37 @@ pub fn email_gateway_send_test() -> AppResult<()> {
 }
 
 #[tauri::command]
+pub fn ai_gateway_get_config() -> AppResult<crate::ai_gateway::AiGatewayPublicConfig> {
+    crate::ai_gateway::get_public_config()
+}
+
+#[tauri::command]
+pub fn ai_gateway_save_config(
+    config: crate::ai_gateway::AiGatewaySaveInput,
+) -> AppResult<crate::ai_gateway::AiGatewayPublicConfig> {
+    crate::ai_gateway::save_config(config)
+}
+
+#[tauri::command]
+pub fn ai_gateway_test_connection() -> AppResult<()> {
+    crate::ai_gateway::test_connection()
+}
+
+#[tauri::command]
+pub fn ai_parse_task(
+    input: crate::ai_gateway::AiParseTaskInput,
+) -> AppResult<crate::ai_gateway::AiParsedTask> {
+    crate::ai_gateway::parse_task(input)
+}
+
+#[tauri::command]
+pub fn ai_decompose_subtasks(
+    input: crate::ai_gateway::AiDecomposeSubtasksInput,
+) -> AppResult<crate::ai_gateway::AiDecomposedSubtasks> {
+    crate::ai_gateway::decompose_subtasks(input)
+}
+
+#[tauri::command]
 pub async fn data_reset_demo(app: AppHandle) -> AppResult<crate::db::repositories::DataImportResult> {
     let result = crate::data::reset_demo_data(&app)?;
     let _ = app.emit("todo-changed", ());

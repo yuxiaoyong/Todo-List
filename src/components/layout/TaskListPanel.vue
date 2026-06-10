@@ -7,6 +7,7 @@ import type { SortableEvent } from "sortablejs";
 import NewTaskDialog from "../todo/NewTaskDialog.vue";
 import QuickInputBar from "../todo/QuickInputBar.vue";
 import KanbanView from "./KanbanView.vue";
+import GanttView from "./GanttView.vue";
 import DraggableTaskList from "./DraggableTaskList.vue";
 import { useTodoStore } from "../../stores/todo";
 import { useCategoryStore } from "../../stores/category";
@@ -51,6 +52,7 @@ const displayTodos = computed(() => {
 });
 
 const kanbanTodos = computed(() => filteredTodos.value);
+const ganttTodos = computed(() => filteredTodos.value);
 const isTrashMode = computed(() => uiStore.viewMode === "trash");
 const canDrag = computed(() => parsedSort.value.field === "default" && !isTrashMode.value);
 
@@ -253,6 +255,7 @@ onMounted(() => {
         >
           <el-radio-button value="list">{{ t("task.listView") }}</el-radio-button>
           <el-radio-button value="kanban">{{ t("task.kanbanView") }}</el-radio-button>
+          <el-radio-button value="gantt">{{ t("task.ganttView") }}</el-radio-button>
         </el-radio-group>
       </div>
       <div class="toolbar-right">
@@ -306,6 +309,14 @@ onMounted(() => {
       @view="onView"
       @toggle="onToggle"
       @delete="onDelete"
+    />
+
+    <GanttView
+      v-else-if="uiStore.taskViewMode === 'gantt'"
+      :todos="ganttTodos"
+      :loading="todoStore.loading"
+      @refresh="emit('refresh')"
+      @view="onView"
     />
 
     <div v-else class="table-wrap">

@@ -50,6 +50,7 @@ export const todoApi = {
     categoryId?: number;
     tagIds?: number[];
     priority?: string;
+    startDate?: string;
     dueDate?: string;
     contentHtml?: string;
   }) => tauriInvoke<TodoDetail>("todo_create", { input }),
@@ -171,6 +172,61 @@ export const emailGatewayApi = {
   saveConfig: (config: EmailGatewaySaveInput) =>
     tauriInvoke<EmailGatewayPublicConfig>("email_gateway_save_config", { config }),
   sendTest: () => tauriInvoke<void>("email_gateway_send_test"),
+};
+
+export interface AiGatewayPublicConfig {
+  enabled: boolean;
+  provider: string;
+  cloudBaseUrl: string;
+  cloudModel: string;
+  hasApiKey: boolean;
+  ollamaBaseUrl: string;
+  ollamaModel: string;
+  timeoutSecs: number;
+}
+
+export interface AiGatewaySaveInput {
+  enabled: boolean;
+  provider: string;
+  cloudBaseUrl: string;
+  cloudApiKey?: string;
+  cloudModel: string;
+  ollamaBaseUrl: string;
+  ollamaModel: string;
+  timeoutSecs: number;
+}
+
+export interface AiNameRef {
+  id: number;
+  name: string;
+}
+
+export interface AiParsedTask {
+  title: string;
+  startDate?: string | null;
+  dueDate?: string | null;
+  priority: string;
+  categoryId?: number | null;
+  tagIds: number[];
+}
+
+export interface AiDecomposedSubtasks {
+  steps: string[];
+}
+
+export const aiGatewayApi = {
+  getConfig: () =>
+    tauriInvoke<AiGatewayPublicConfig>("ai_gateway_get_config", undefined, { silent: true }),
+  saveConfig: (config: AiGatewaySaveInput) =>
+    tauriInvoke<AiGatewayPublicConfig>("ai_gateway_save_config", { config }),
+  testConnection: () => tauriInvoke<void>("ai_gateway_test_connection"),
+  parseTask: (input: { text: string; categories: AiNameRef[]; tags: AiNameRef[] }) =>
+    tauriInvoke<AiParsedTask>("ai_parse_task", { input }),
+  decomposeSubtasks: (input: {
+    title: string;
+    content?: string;
+    existingSteps: string[];
+  }) => tauriInvoke<AiDecomposedSubtasks>("ai_decompose_subtasks", { input }),
 };
 
 export const dataApi = {

@@ -1,3 +1,5 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
@@ -5,8 +7,15 @@ import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
 const host = process.env.TAURI_DEV_HOST;
+const rootDir = path.dirname(fileURLToPath(import.meta.url));
+const frappeGanttSrc = path.resolve(rootDir, "node_modules/frappe-gantt/src/index.js");
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      "frappe-gantt": frappeGanttSrc,
+    },
+  },
   plugins: [
     vue(),
     AutoImport({
@@ -26,6 +35,7 @@ export default defineConfig({
       "@tiptap/extension-underline",
       "hevue-img-preview/v3",
     ],
+    exclude: ["frappe-gantt"],
   },
   clearScreen: false,
   server: {

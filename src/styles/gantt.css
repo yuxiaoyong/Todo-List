@@ -1,0 +1,99 @@
+.gantt-view-root {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--panel-bg);
+  position: relative;
+}
+
+.gantt-view-root .gantt-host {
+  flex: 1;
+  min-height: 320px;
+  min-width: 0;
+  overflow: auto;
+}
+
+.gantt-view-root .gantt-container {
+  min-height: 320px;
+  width: 100%;
+  border-radius: 0;
+}
+
+.gantt-view-root .gantt .grid-header {
+  fill: var(--panel-bg);
+  stroke: var(--border-color);
+}
+
+.gantt-view-root .gantt .grid-row {
+  fill: var(--panel-bg);
+}
+
+.gantt-view-root .gantt .grid-row:nth-child(even) {
+  fill: var(--surface-muted);
+}
+
+.gantt-view-root .gantt .row-line,
+.gantt-view-root .gantt .tick {
+  stroke: var(--border-color);
+}
+
+.gantt-view-root .gantt .upper-text {
+  fill: var(--text-primary);
+}
+
+.gantt-view-root .gantt .lower-text {
+  fill: var(--text-secondary);
+}
+
+.gantt-view-root .gantt .today-highlight {
+  display: none;
+}
+
+.gantt-view-root .gantt-today-line {
+  stroke: var(--primary);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.gantt-view-root .gantt .bar-wrapper.gantt-priority-high .bar {
+  fill: #ff7875;
+  stroke: #ff4d4f;
+}
+
+.gantt-view-root .gantt .bar-wrapper.gantt-priority-medium .bar {
+  fill: #ffc53d;
+  stroke: #faad14;
+}
+
+.gantt-view-root .gantt .bar-wrapper.gantt-priority-low .bar {
+  fill: #d9d9d9;
+  stroke: #bfbfbf;
+}
+
+.gantt-view-root .gantt .bar-wrapper.gantt-completed .bar {
+  opacity: 0.72;
+}
+
+.gantt-view-root .gantt .bar-wrapper.gantt-completed .bar-progress {
+  fill: #52c41a;
+}
+
+.gantt-view-root .gantt .bar-label {
+  fill: #fff;
+}
+
+.gantt-view-root .gantt .bar-label.big {
+  fill: var(--text-primary);
+}
+
+.gantt-empty {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--panel-bg);
+}

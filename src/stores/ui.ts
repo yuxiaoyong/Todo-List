@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export type ViewMode = "all" | "category" | "tag" | "trash";
 export type TimeFilter = "all" | "year" | "month" | "week" | "today";
 export type CategoryFilter = "all" | number;
-export type TaskViewMode = "list" | "kanban";
+export type TaskViewMode = "list" | "kanban" | "gantt";
 
 export const useUiStore = defineStore("ui", {
   state: () => ({

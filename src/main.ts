@@ -13,6 +13,8 @@ import { useShortcutStore } from "./stores/shortcut";
 import { useLocaleStore } from "./stores/locale";
 import { useNotificationStore } from "./stores/notification";
 import "./styles/main.css";
+import "./styles/code-highlight.css";
+import "./styles/gantt.css";
 
 const app = createApp(App);
 const pinia = createPinia();

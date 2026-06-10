@@ -2,16 +2,26 @@
 import { onBeforeUnmount, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
-import StarterKit from "@tiptap/starter-kit";
-import Link from "@tiptap/extension-link";
-import Placeholder from "@tiptap/extension-placeholder";
-import Underline from "@tiptap/extension-underline";
-import DOMPurify from "dompurify";
+import { ElMessageBox } from "element-plus";
 import { attachmentApi, resolveAttachmentUrl } from "../../api";
 import { fileToBase64 } from "../../utils/attachmentTypes";
 import { contentToEditorHtml } from "../../utils/contentFormat";
 import { showImagePreview } from "../../utils/imagePreview";
-import { ResizableImage } from "./resizableImage";
+import { createEditorExtensions } from "./editorExtensions";
+import { sanitizeEditorHtml } from "./sanitizeHtml";
+
+const CODE_LANGUAGES = [
+  { id: "auto", labelKey: "editor.codeLangAuto" },
+  { id: "javascript", labelKey: "editor.codeLangJavaScript" },
+  { id: "typescript", labelKey: "editor.codeLangTypeScript" },
+  { id: "json", labelKey: "editor.codeLangJson" },
+  { id: "python", labelKey: "editor.codeLangPython" },
+  { id: "rust", labelKey: "editor.codeLangRust" },
+  { id: "bash", labelKey: "editor.codeLangBash" },
+  { id: "css", labelKey: "editor.codeLangCss" },
+  { id: "html", labelKey: "editor.codeLangHtml" },
+  { id: "markdown", labelKey: "editor.codeLangMarkdown" },
+] as const;
 
 const { t } = useI18n();
 
@@ -31,33 +41,9 @@ const dataUrlToLocal = ref(new Map<string, string>());
 const loading = ref(false);
 const applyingExternal = ref(false);
 const lastEmitted = ref("");
-function sanitize(html: string) {
-  return DOMPurify.sanitize(html, {
-    ALLOWED_TAGS: [
-      "p",
-      "br",
-      "strong",
-      "em",
-      "u",
-      "s",
-      "h1",
-      "h2",
-      "h3",
-      "ul",
-      "ol",
-      "li",
-      "blockquote",
-      "pre",
-      "code",
-      "a",
-      "img",
-    ],
-    ALLOWED_ATTR: ["href", "src", "alt", "title", "target", "rel", "width", "height", "style"],
-  });
-}
 
 function toStorageHtml(html: string) {
-  let result = sanitize(html);
+  let result = sanitizeEditorHtml(html);
   dataUrlToLocal.value.forEach((localUrl, dataUrl) => {
     result = result.split(dataUrl).join(localUrl);
   });
@@ -65,7 +51,7 @@ function toStorageHtml(html: string) {
 }
 
 function normalizeStorage(html: string) {
-  return sanitize(toStorageHtml(html || "<p></p>"));
+  return sanitizeEditorHtml(toStorageHtml(html || "<p></p>"));
 }
 
 function registerDisplayUrl(dataUrl: string, localUrl: string) {
@@ -108,18 +94,10 @@ async function uploadImage(file: File) {
 }
 
 const editor = useEditor({
-  extensions: [
-    StarterKit,
-    Underline,
-    Link.configure({ openOnClick: false }),
-    ResizableImage.configure({
-      allowBase64: true,
-      onPreview: (src) => void showImagePreview(src),
-    }),
-    Placeholder.configure({
-      placeholder: t("editor.placeholder"),
-    }),
-  ],
+  extensions: createEditorExtensions({
+    placeholder: t("editor.placeholder"),
+    onImagePreview: (src) => void showImagePreview(src),
+  }),
   editable: props.editable !== false,
   onUpdate: ({ editor: ed }) => {
     if (applyingExternal.value) return;
@@ -245,6 +223,84 @@ function runCommand(action: (ed: NonNullable<typeof editor.value>) => void) {
   if (!editor.value) return;
   action(editor.value);
 }
+
+async function editLink() {
+  const ed = editor.value;
+  if (!ed) return;
+  const previous = ed.getAttributes("link").href as string | undefined;
+  try {
+    const { value } = await ElMessageBox.prompt(t("editor.linkUrl"), t("editor.link"), {
+      confirmButtonText: t("common.confirm"),
+      cancelButtonText: t("common.cancel"),
+      inputValue: previous || "https://",
+    });
+    if (value === "") {
+      ed.chain().focus().extendMarkRange("link").unsetLink().run();
+      return;
+    }
+    ed.chain().focus().extendMarkRange("link").setLink({ href: value }).run();
+  } catch {
+    // cancelled
+  }
+}
+
+type TableCommand =
+  | "insert"
+  | "addRowAfter"
+  | "addColumnAfter"
+  | "deleteRow"
+  | "deleteColumn"
+  | "deleteTable";
+
+function runTableCommand(command: TableCommand) {
+  runCommand((ed) => {
+    const chain = ed.chain().focus();
+    switch (command) {
+      case "insert":
+        chain.insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
+        break;
+      case "addRowAfter":
+        chain.addRowAfter().run();
+        break;
+      case "addColumnAfter":
+        chain.addColumnAfter().run();
+        break;
+      case "deleteRow":
+        chain.deleteRow().run();
+        break;
+      case "deleteColumn":
+        chain.deleteColumn().run();
+        break;
+      case "deleteTable":
+        chain.deleteTable().run();
+        break;
+    }
+  });
+}
+
+function toggleCodeBlock() {
+  runCommand((ed) => {
+    ed.chain().focus().toggleCodeBlock().run();
+  });
+}
+
+function setCodeLanguage(lang: string) {
+  runCommand((ed) => {
+    if (ed.isActive("codeBlock")) {
+      if (lang === "auto") {
+        ed.chain().focus().updateAttributes("codeBlock", { language: null }).run();
+      } else {
+        ed.chain().focus().updateAttributes("codeBlock", { language: lang }).run();
+      }
+      return;
+    }
+    if (lang === "auto") {
+      ed.chain().focus().toggleCodeBlock().run();
+    } else {
+      ed.chain().focus().toggleCodeBlock({ language: lang }).run();
+    }
+  });
+}
 </script>
 
 <template>
@@ -277,12 +333,37 @@ function runCommand(action: (ed: NonNullable<typeof editor.value>) => void) {
       <el-button size="small" @click="runCommand((ed) => ed.chain().focus().toggleOrderedList().run())">
         {{ t("editor.orderedList") }}
       </el-button>
-      <el-button size="small" @click="runCommand((ed) => ed.chain().focus().toggleBlockquote().run())">
-        {{ t("editor.blockquote") }}
+      <el-button size="small" @click="runCommand((ed) => ed.chain().focus().toggleTaskList().run())">
+        {{ t("editor.taskList") }}
       </el-button>
-      <el-button size="small" @click="runCommand((ed) => ed.chain().focus().toggleCodeBlock().run())">
+      <el-dropdown split-button size="small" @click="toggleCodeBlock" @command="setCodeLanguage">
         {{ t("editor.code") }}
-      </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item
+              v-for="lang in CODE_LANGUAGES"
+              :key="lang.id"
+              :command="lang.id"
+            >
+              {{ t(lang.labelKey) }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      <el-button size="small" @click="editLink">{{ t("editor.link") }}</el-button>
+      <el-dropdown trigger="click" @command="runTableCommand">
+        <el-button size="small">{{ t("editor.table") }}</el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="insert">{{ t("editor.tableInsert") }}</el-dropdown-item>
+            <el-dropdown-item command="addRowAfter">{{ t("editor.tableAddRow") }}</el-dropdown-item>
+            <el-dropdown-item command="addColumnAfter">{{ t("editor.tableAddColumn") }}</el-dropdown-item>
+            <el-dropdown-item divided command="deleteRow">{{ t("editor.tableDeleteRow") }}</el-dropdown-item>
+            <el-dropdown-item command="deleteColumn">{{ t("editor.tableDeleteColumn") }}</el-dropdown-item>
+            <el-dropdown-item command="deleteTable">{{ t("editor.tableDelete") }}</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
       <el-button size="small" @click="pickImage">{{ t("editor.image") }}</el-button>
     </div>
     <EditorContent :editor="editor" class="tiptap-editor" />

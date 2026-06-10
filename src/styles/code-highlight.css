@@ -1,0 +1,98 @@
+/* TipTap CodeBlockLowlight：装饰 span 使用 hljs-* class，需按主题分别配色 */
+
+.tiptap-editor .ProseMirror pre code {
+  color: #24292e;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.tiptap-editor .ProseMirror .hljs-comment,
+.tiptap-editor .ProseMirror .hljs-quote {
+  color: #6a737d;
+}
+
+.tiptap-editor .ProseMirror .hljs-keyword,
+.tiptap-editor .ProseMirror .hljs-selector-tag,
+.tiptap-editor .ProseMirror .hljs-type,
+.tiptap-editor .ProseMirror .hljs-doctag {
+  color: #d73a49;
+}
+
+.tiptap-editor .ProseMirror .hljs-string,
+.tiptap-editor .ProseMirror .hljs-regexp,
+.tiptap-editor .ProseMirror .hljs-meta .hljs-string {
+  color: #032f62;
+}
+
+.tiptap-editor .ProseMirror .hljs-number,
+.tiptap-editor .ProseMirror .hljs-literal,
+.tiptap-editor .ProseMirror .hljs-variable,
+.tiptap-editor .ProseMirror .hljs-template-variable,
+.tiptap-editor .ProseMirror .hljs-attr,
+.tiptap-editor .ProseMirror .hljs-attribute {
+  color: #005cc5;
+}
+
+.tiptap-editor .ProseMirror .hljs-built_in,
+.tiptap-editor .ProseMirror .hljs-symbol {
+  color: #e36209;
+}
+
+.tiptap-editor .ProseMirror .hljs-title,
+.tiptap-editor .ProseMirror .hljs-title.class_,
+.tiptap-editor .ProseMirror .hljs-title.function_ {
+  color: #6f42c1;
+}
+
+.tiptap-editor .ProseMirror .hljs-name,
+.tiptap-editor .ProseMirror .hljs-selector-id,
+.tiptap-editor .ProseMirror .hljs-selector-class {
+  color: #22863a;
+}
+
+html.dark .tiptap-editor .ProseMirror pre code {
+  color: #c9d1d9;
+}
+
+html.dark .tiptap-editor .ProseMirror .hljs-comment,
+html.dark .tiptap-editor .ProseMirror .hljs-quote {
+  color: #8b949e;
+}
+
+html.dark .tiptap-editor .ProseMirror .hljs-keyword,
+html.dark .tiptap-editor .ProseMirror .hljs-selector-tag,
+html.dark .tiptap-editor .ProseMirror .hljs-type,
+html.dark .tiptap-editor .ProseMirror .hljs-doctag {
+  color: #ff7b72;
+}
+
+html.dark .tiptap-editor .ProseMirror .hljs-string,
+html.dark .tiptap-editor .ProseMirror .hljs-regexp,
+html.dark .tiptap-editor .ProseMirror .hljs-meta .hljs-string {
+  color: #a5d6ff;
+}
+
+html.dark .tiptap-editor .ProseMirror .hljs-number,
+html.dark .tiptap-editor .ProseMirror .hljs-literal,
+html.dark .tiptap-editor .ProseMirror .hljs-variable,
+html.dark .tiptap-editor .ProseMirror .hljs-template-variable,
+html.dark .tiptap-editor .ProseMirror .hljs-attr,
+html.dark .tiptap-editor .ProseMirror .hljs-attribute {
+  color: #79c0ff;
+}
+
+html.dark .tiptap-editor .ProseMirror .hljs-built_in,
+html.dark .tiptap-editor .ProseMirror .hljs-symbol {
+  color: #ffa657;
+}
+
+html.dark .tiptap-editor .ProseMirror .hljs-title,
+html.dark .tiptap-editor .ProseMirror .hljs-title.class_,
+html.dark .tiptap-editor .ProseMirror .hljs-title.function_ {
+  color: #d2a8ff;
+}
+
+html.dark .tiptap-editor .ProseMirror .hljs-name,
+html.dark .tiptap-editor .ProseMirror .hljs-selector-id,
+html.dark .tiptap-editor .ProseMirror .hljs-selector-class {
+  color: #7ee787;
+}

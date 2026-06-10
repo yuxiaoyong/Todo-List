@@ -219,6 +219,7 @@ pub struct CreateTodoInput {
     pub category_id: Option<i64>,
     pub tag_ids: Option<Vec<i64>>,
     pub priority: Option<String>,
+    pub start_date: Option<String>,
     pub due_date: Option<String>,
     pub content_html: Option<String>,
 }
@@ -1021,14 +1022,15 @@ pub fn create_todo(conn: &Connection, input: CreateTodoInput) -> AppResult<TodoD
 
     let tx = conn.unchecked_transaction()?;
     tx.execute(
-        "INSERT INTO todos (title, title_text, content_html, content_text, priority, due_date, category_id, sort_order, assignee, assignee_text, created_at, updated_at)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)",
+        "INSERT INTO todos (title, title_text, content_html, content_text, priority, start_date, due_date, category_id, sort_order, assignee, assignee_text, created_at, updated_at)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)",
         params![
             input.title,
             title_text,
             content_html,
             content_text,
             priority,
+            input.start_date,
             input.due_date,
             input.category_id,
             max_order + 1,
@@ -1105,6 +1107,7 @@ pub fn quick_create(conn: &Connection, input: QuickCreateInput) -> AppResult<Tod
             category_id: input.category_id,
             tag_ids: input.tag_ids,
             priority: input.priority,
+            start_date: None,
             due_date: None,
             content_html: None,
         },
@@ -1566,6 +1569,7 @@ pub fn import_all_data(conn: &Connection, snapshot: DataExportSnapshot) -> AppRe
                 category_id,
                 tag_ids: Some(tag_ids.clone()),
                 priority: Some(summary.priority.clone()),
+                start_date: summary.start_date.clone(),
                 due_date: summary.due_date.clone(),
                 content_html: Some(item.detail.content_html.clone()),
             },
@@ -1772,6 +1776,7 @@ mod tests {
                 category_id: None,
                 tag_ids: None,
                 priority: None,
+                start_date: None,
                 due_date: None,
                 content_html: Some("<p>中文内容</p>".into()),
             },

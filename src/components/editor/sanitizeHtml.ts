@@ -1,0 +1,67 @@
+import DOMPurify from "dompurify";
+
+const ALLOWED_TAGS = [
+  "p",
+  "br",
+  "strong",
+  "em",
+  "u",
+  "s",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "ul",
+  "ol",
+  "li",
+  "blockquote",
+  "pre",
+  "code",
+  "a",
+  "img",
+  "div",
+  "span",
+  "label",
+  "input",
+  "table",
+  "thead",
+  "tbody",
+  "tr",
+  "th",
+  "td",
+  "details",
+  "summary",
+  "hr",
+];
+
+const ALLOWED_ATTR = [
+  "href",
+  "src",
+  "alt",
+  "title",
+  "target",
+  "rel",
+  "width",
+  "height",
+  "style",
+  "class",
+  "data-type",
+  "data-checked",
+  "colspan",
+  "rowspan",
+  "colwidth",
+  "open",
+  "type",
+  "checked",
+  "disabled",
+  "start",
+];
+
+export function sanitizeEditorHtml(html: string) {
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS,
+    ALLOWED_ATTR,
+  });
+}

@@ -35,10 +35,11 @@ import ShortcutKeyInput from "./ShortcutKeyInput.vue";
 import SettingsDataSection from "./SettingsDataSection.vue";
 import SettingsNotificationSection from "./SettingsNotificationSection.vue";
 import SettingsEmailGatewaySection from "./SettingsEmailGatewaySection.vue";
+import SettingsAiSection from "./SettingsAiSection.vue";
 
 
 
-type SettingsTab = "appearance" | "language" | "shortcuts" | "notifications" | "email" | "data";
+type SettingsTab = "appearance" | "language" | "shortcuts" | "notifications" | "ai" | "email" | "data";
 
 
 
@@ -126,6 +127,8 @@ const navItems = computed(() => [
   { id: "shortcuts" as const, label: t("settings.shortcuts") },
 
   { id: "notifications" as const, label: t("settings.notifications") },
+
+  { id: "ai" as const, label: t("settings.ai") },
 
   { id: "email" as const, label: t("settings.email") },
 
@@ -508,6 +511,8 @@ async function resetShortcut(id: CustomizableShortcutId) {
 
 
         <SettingsNotificationSection v-show="activeTab === 'notifications'" />
+
+        <SettingsAiSection v-show="activeTab === 'ai'" />
 
         <SettingsEmailGatewaySection v-show="activeTab === 'email'" />
 

@@ -256,6 +256,100 @@ html[data-window-opacity="on"] #app {
   border-radius: 4px;
 }
 
+.tiptap-editor .ProseMirror code {
+  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.92em;
+}
+
+.tiptap-editor .ProseMirror pre {
+  background: var(--surface-muted);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  margin: 0.75rem 0;
+  overflow-x: auto;
+  padding: 12px 14px;
+}
+
+.tiptap-editor .ProseMirror pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.88em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.tiptap-editor .ProseMirror table {
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.tiptap-editor .ProseMirror th,
+.tiptap-editor .ProseMirror td {
+  border: 1px solid var(--border-color);
+  min-width: 80px;
+  padding: 6px 10px;
+  vertical-align: top;
+}
+
+.tiptap-editor .ProseMirror th {
+  background: var(--surface-muted);
+  font-weight: 600;
+}
+
+.tiptap-editor .ProseMirror .selectedCell::after {
+  background: color-mix(in srgb, var(--primary) 16%, transparent);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.tiptap-editor .ProseMirror .column-resize-handle {
+  background-color: var(--primary);
+  bottom: -2px;
+  pointer-events: none;
+  position: absolute;
+  right: -2px;
+  top: 0;
+  width: 4px;
+}
+
+.tiptap-editor .ProseMirror.resize-cursor {
+  cursor: col-resize;
+}
+
+.tiptap-editor .ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+}
+
+.tiptap-editor .ProseMirror li[data-type="taskItem"] {
+  align-items: flex-start;
+  display: flex;
+  gap: 8px;
+  margin: 0.25rem 0;
+}
+
+.tiptap-editor .ProseMirror li[data-type="taskItem"] > label {
+  flex: 0 0 auto;
+  margin-top: 0.2rem;
+  user-select: none;
+}
+
+.tiptap-editor .ProseMirror li[data-type="taskItem"] > div {
+  flex: 1 1 auto;
+}
+
+.tiptap-editor .ProseMirror li[data-type="taskItem"] > div > p {
+  margin: 0;
+}
+
 /* Element Plus 弹窗：WebView2 下避免遮罩/层级导致无法点击 */
 .el-overlay {
   z-index: 3999 !important;

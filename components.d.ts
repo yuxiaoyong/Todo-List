@@ -8,6 +8,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AiSubtasksPreviewDialog: typeof import('./src/components/todo/AiSubtasksPreviewDialog.vue')['default']
+    AiTaskPreviewDialog: typeof import('./src/components/todo/AiTaskPreviewDialog.vue')['default']
     AttachmentPanel: typeof import('./src/components/attachment/AttachmentPanel.vue')['default']
     AttachmentPreviewDialog: typeof import('./src/components/attachment/AttachmentPreviewDialog.vue')['default']
     DraggableTaskList: typeof import('./src/components/layout/DraggableTaskList.vue')['default']
@@ -23,6 +25,7 @@ declare module 'vue' {
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
+    ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElIcon: typeof import('element-plus/es')['ElIcon']
@@ -40,6 +43,7 @@ declare module 'vue' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTimeSelect: typeof import('element-plus/es')['ElTimeSelect']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    GanttView: typeof import('./src/components/layout/GanttView.vue')['default']
     KanbanTaskBucket: typeof import('./src/components/layout/KanbanTaskBucket.vue')['default']
     KanbanView: typeof import('./src/components/layout/KanbanView.vue')['default']
     MinimalCommandInput: typeof import('./src/components/todo/MinimalCommandInput.vue')['default']
@@ -49,6 +53,7 @@ declare module 'vue' {
     ResizableImageView: typeof import('./src/components/editor/ResizableImageView.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SettingsAiSection: typeof import('./src/components/settings/SettingsAiSection.vue')['default']
     SettingsDataSection: typeof import('./src/components/settings/SettingsDataSection.vue')['default']
     SettingsDialog: typeof import('./src/components/settings/SettingsDialog.vue')['default']
     SettingsEmailGatewaySection: typeof import('./src/components/settings/SettingsEmailGatewaySection.vue')['default']

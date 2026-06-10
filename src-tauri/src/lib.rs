@@ -5,6 +5,7 @@ pub mod db;
 pub mod demo_seed;
 mod lunar;
 mod recurrence;
+mod ai_gateway;
 mod email_gateway;
 mod error;
 mod file_store;
@@ -354,6 +355,11 @@ pub fn run() {
             commands::email_gateway_get_config,
             commands::email_gateway_save_config,
             commands::email_gateway_send_test,
+            commands::ai_gateway_get_config,
+            commands::ai_gateway_save_config,
+            commands::ai_gateway_test_connection,
+            commands::ai_parse_task,
+            commands::ai_decompose_subtasks,
         ])
         .on_window_event(|window, event| {
             if window.label() == "minimal-todo" {
