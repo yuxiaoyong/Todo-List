@@ -97,11 +97,11 @@
 
 ### 文档
 
-- `README.md` 仍把主题/备份/看板标成「未实现」，与实际不符，需同步更新
+- 保持 README / Feature / Plan / ARCHITECTURE 与代码一致（列表视图、Rust 模块分层等）
 
 ### 代码整洁
 
-- `TodoItem.vue` — 未使用，列表用 `el-table`
+- `TodoItem.vue` — 未使用，已被 `DraggableTaskList` 替代
 - `highlightId` in ui store — 设置但未读取
 - `todoApi.dueToday()` — API 存在但 UI 未调用
 
@@ -119,8 +119,7 @@ flowchart LR
   A --> A3[分类标签编辑]
 
   B --> B1[今日/过期视图]
-  B --> B2[列表拖拽排序]
-  B --> B3[JSON 导入 + 自动备份]
+  B --> B2[JSON 导入 + 自动备份]
 
   C --> C1[子任务]
   C --> C2[重复任务]
@@ -129,18 +128,18 @@ flowchart LR
 
 ### 阶段 A：打磨包（约 1 周）
 
-- [ ] 回收站「恢复」按钮
-- [ ] 任务置顶 UI（`pinned` 字段）
-- [ ] 挂载 `QuickInputBar` 到 `TaskListPanel`
-- [ ] 设置 → 通知：开关、提前提醒
+- [x] 回收站「恢复」按钮
+- [x] 任务置顶 UI（`pinned` 字段）
+- [x] 挂载 `QuickInputBar` 到 `TaskListPanel`
+- [x] 设置 → 通知：开关、提前提醒
 - [ ] Windows 通知标题跟随语言设置
 - [ ] 分类/标签重命名与颜色
 
 ### 阶段 B：效率包（约 2～4 周）
 
 - [ ] 侧边栏「今日」「已过期」入口
-- [ ] 列表拖拽排序
-- [ ] JSON 导入
+- [x] 列表拖拽排序
+- [x] JSON 导入
 - [ ] 定时/退出自动备份
 - [ ] 设置：默认分类、新建行为
 
@@ -159,7 +158,7 @@ flowchart LR
 
 - 账号、云同步、多人协作、评论
 - 过重的工作流/自动化引擎
-- 复杂项目管理（甘特、依赖、工时）
+- 复杂项目管理（依赖、工时）
 
 ---
 

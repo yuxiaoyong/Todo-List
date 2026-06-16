@@ -12,9 +12,10 @@ use crate::db::repositories::{
     due_notification_candidates, get_setting, recurrence_notification_candidates, set_setting,
     TodoSummary,
 };
-use crate::recurrence::{recurrence_occurrence_key, should_notify_recurrence};
+use crate::domain::recurrence::{recurrence_occurrence_key, should_notify_recurrence};
 use crate::db::with_conn;
-use crate::error::AppResult;
+use crate::gateway::email;
+use crate::infra::error::{AppError, AppResult};
 
 const SENT_LOG_KEY: &str = "notification.sent_log.v3";
 const ENABLED_SETTING_KEY: &str = "notification.enabled";
@@ -121,10 +122,10 @@ fn emit_due_reminder(app: &AppHandle, todo: &TodoSummary) -> AppResult<()> {
         title: todo.title.clone(),
     };
     app.emit("todo-due-reminder", payload)
-        .map_err(|e| crate::error::AppError::msg(e.to_string()))?;
+        .map_err(|e| AppError::msg(e.to_string()))?;
     let email_enabled = with_conn(|conn| setting_bool(conn, EMAIL_SETTING_KEY, false))?;
     if email_enabled {
-        let _ = crate::email_gateway::try_send_due_reminder(todo);
+        let _ = email::try_send_due_reminder(todo);
     }
     Ok(())
 }
@@ -144,7 +145,7 @@ fn show_due_system_notification(app: &AppHandle, todo: &TodoSummary) -> AppResul
             .title("任务到期提醒")
             .body(&todo.title)
             .show()
-            .map_err(|e| crate::error::AppError::msg(e.to_string()))?;
+            .map_err(|e| AppError::msg(e.to_string()))?;
         Ok(())
     }
 }
@@ -359,8 +360,8 @@ mod windows_notify {
     use windows::Win32::UI::Shell::{IShellLinkW, ShellLink, SetCurrentProcessExplicitAppUserModelID};
     use windows::Win32::UI::WindowsAndMessaging::SHOW_WINDOW_CMD;
 
-    use crate::error::{AppError, AppResult};
-    use crate::notifications::{emit_open_task, mark_notification_pending};
+    use crate::infra::error::{AppError, AppResult};
+    use super::{emit_open_task, mark_notification_pending};
 
     static APP_HANDLE: OnceCell<AppHandle> = OnceCell::new();
     static TOAST_MANAGER: OnceCell<SharedToastManager> = OnceCell::new();

@@ -8,7 +8,7 @@ use tauri::AppHandle;
 
 use crate::db::repositories::{get_setting, set_setting};
 use crate::db::{app_data_dir, with_conn};
-use crate::error::AppResult;
+use crate::infra::error::AppResult;
 
 const HEALTH_PROBE_KEY: &str = "__health_probe__";
 const LOG_FILE: &str = "app.log";

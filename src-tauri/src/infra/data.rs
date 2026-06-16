@@ -16,7 +16,7 @@ use crate::db::{
     app_data_dir, attachments_dir, checkpoint, connect, db_file_path, disconnect, remove_db_sidecars,
     with_conn,
 };
-use crate::error::{AppError, AppResult};
+use crate::infra::error::{AppError, AppResult};
 
 const BACKUP_FORMAT: &str = "todo-list-backup";
 const BACKUP_VERSION: i32 = 1;

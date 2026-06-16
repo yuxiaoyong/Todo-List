@@ -64,7 +64,8 @@
 ## 功能速览
 
 - 任务全生命周期：创建、编辑、完成、置顶、软删除、回收站恢复
-- 组织方式：分类、标签、优先级、开始 / 截止日期、负责人、列表 / 看板双视图
+- 组织方式：分类、标签、优先级、开始 / 截止日期、负责人；列表 / 看板 / 甘特图三视图
+- 列表：可配置列、固定列横向滚动、行内编辑、拖拽排序
 - 子任务：详情内增删改、勾选完成、进度展示
 - 周期提醒：公历重复（日 / 周 / 月 / 季 / 年）、农历年度重复与节日预设，可锚定开始日或截止日
 - 表达能力：TipTap 富文本、附件（图片 / PDF / Office / 文本）
@@ -72,6 +73,7 @@
 - 桌面集成：系统托盘、单实例、全局快捷键、快速捕获、极简模式（边缘吸附）
 - 提醒：系统通知、邮件通知（SMTP）、到期与周期提醒、可配置提前提醒与重复频率
 - 数据：Zip 备份 / 恢复、JSON 导出 / 导入、首次启动自动演示数据、演示数据一键重置
+- 可选 AI：设置中配置云端 API 或 Ollama；自然语言建任务、子任务拆解
 - 个性化：浅色 / 深色 / 跟随系统、中英文、窗口透明度、可自定义快捷键
 
 完整列表见 [Feature.md](./docs/Feature.md)；路线图见 [Plan.md](./docs/Plan.md)。
@@ -249,7 +251,7 @@ cargo run --bin seed-demo
 | [ARCHITECTURE.md](./docs/ARCHITECTURE.md)     | 架构、模块、迁移与数据流  |
 | [CONTRIBUTING.md](./CONTRIBUTING.md)          | 贡献指南                  |
 | [Requirement.md](./docs/Requirement.md)       | 产品定位与需求说明        |
-| [Requirement-AI.md](./docs/Requirement-AI.md) | AI 可选增强模块（规划中） |
+| [Requirement-AI.md](./docs/Requirement-AI.md) | AI 可选增强模块（部分已实现） |
 | [Improvement.md](./docs/Improvement.md)       | 改善项备忘（开发向）      |
 | [demo-data.md](./docs/demo-data.md)           | 演示数据说明与重置方法    |
 

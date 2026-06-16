@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::db::repositories::{get_setting, set_setting, TodoSummary};
 use crate::db::with_conn;
-use crate::error::{AppError, AppResult};
+use crate::infra::error::{AppError, AppResult};
 
 const CONFIG_KEY: &str = "email.gateway.config";
 

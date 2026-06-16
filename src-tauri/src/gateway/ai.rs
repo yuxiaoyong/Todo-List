@@ -6,7 +6,7 @@ use std::time::Duration;
 
 use crate::db::repositories::{get_setting, set_setting};
 use crate::db::with_conn;
-use crate::error::{AppError, AppResult};
+use crate::infra::error::{AppError, AppResult};
 
 const CONFIG_KEY: &str = "ai.gateway.config";
 const DEFAULT_TIMEOUT_SECS: u64 = 30;

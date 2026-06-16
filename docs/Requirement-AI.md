@@ -158,7 +158,7 @@ AI 能力是 Todo List 的**可选增强模块**，不是核心依赖。
 
 | ID | 需求 |
 |----|------|
-| AI-NF-11 | AI 逻辑集中在 `ai_gateway.rs`（或等价模块），与 `email_gateway.rs` 对称 |
+| AI-NF-11 | AI 逻辑集中在 `gateway/ai.rs`，与 `gateway/email.rs` 对称 |
 | AI-NF-12 | Prompt 模板版本化，便于调整而不改业务 UI |
 | AI-NF-13 | 用户可见文案支持 i18n（中 / 英） |
 

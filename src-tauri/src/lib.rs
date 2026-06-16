@@ -1,18 +1,22 @@
-mod app_log;
 mod commands;
-mod data;
 pub mod db;
-pub mod demo_seed;
-mod lunar;
-mod recurrence;
-mod ai_gateway;
-mod email_gateway;
-mod error;
-mod file_store;
-mod minimal_dock;
-mod notifications;
-mod shortcuts;
-mod window_opacity;
+mod domain;
+mod gateway;
+mod infra;
+
+pub use domain::demo_seed;
+pub use domain::lunar;
+pub use domain::recurrence;
+pub use gateway::ai as ai_gateway;
+pub use gateway::email as email_gateway;
+pub use infra::data;
+pub use infra::error;
+pub use infra::file_store;
+pub use infra::log as app_log;
+pub use infra::minimal_dock;
+pub use infra::notifications;
+pub use infra::shortcuts;
+pub use infra::window_opacity;
 
 use tauri::{
     menu::{Menu, MenuItem, PredefinedMenuItem},

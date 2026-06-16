@@ -4,6 +4,21 @@
 
 ## [Unreleased]
 
+### Added
+
+- 列表列设置：表头右侧切换列可见性、拖拽调整列顺序，配置持久化到 `settings`
+- 列表扩展列：状态、开始 / 截止日、分类、标签、负责人、看板列、周期提醒、创建 / 更新时间等可选展示
+- 列表固定列布局：左固定（置顶 / 勾选 / 标题）、中间横向滚动、右固定（操作）；表头纵向 sticky
+
+### Changed
+
+- 列表实现文档化：明确使用自定义 `DraggableTaskList` 而非 `el-table`（见 [ARCHITECTURE.md](./docs/ARCHITECTURE.md)）
+- Rust 模块分层：`domain/`、`gateway/`、`infra/` 目录结构与文档同步
+
+### Documentation
+
+- 更新 `ARCHITECTURE.md`、`Feature.md`、`Plan.md`、`Improvement.md` 以反映列表视图与模块重构
+
 ## [0.2.0] - 2026-06-08
 
 在 0.1.0 基础上新增甘特图主视图与可选 AI 能力（默认关闭，需用户在设置中配置）。

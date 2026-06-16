@@ -11,13 +11,14 @@ import GanttView from "./GanttView.vue";
 import DraggableTaskList from "./DraggableTaskList.vue";
 import { useTodoStore } from "../../stores/todo";
 import { useCategoryStore } from "../../stores/category";
+import { useKanbanColumnStore } from "../../stores/kanbanColumn";
 import { useTagStore } from "../../stores/tag";
 import { useUiStore } from "../../stores/ui";
 import { todoApi } from "../../api";
 import { buildBucketSortPositions } from "../../utils/kanban";
 import { matchesTimeFilter } from "../../utils/timeFilter";
 import {
-  buildTodoSort,
+  nextTodoSort,
   parseTodoSort,
   sortTodos,
   TODO_SORT_PROP_MAP,
@@ -31,6 +32,7 @@ const emit = defineEmits<{ refresh: [] }>();
 
 const todoStore = useTodoStore();
 const categoryStore = useCategoryStore();
+const kanbanColumnStore = useKanbanColumnStore();
 const tagStore = useTagStore();
 const uiStore = useUiStore();
 const { deleteWithUndo } = useUndoDelete(async () => {
@@ -102,8 +104,10 @@ async function updateTodoInline(
     title?: string;
     priority?: string;
     dueDate?: string | null;
+    startDate?: string | null;
     categoryId?: number | null;
     tagIds?: number[];
+    kanbanColumnId?: number | null;
   },
 ) {
   const detail = await todoApi.get(todo.id);
@@ -113,13 +117,15 @@ async function updateTodoInline(
     contentHtml: detail.contentHtml,
     completed: todo.completed,
     priority: patch.priority ?? todo.priority,
+    startDate: patch.startDate !== undefined ? patch.startDate : todo.startDate,
     dueDate: patch.dueDate !== undefined ? patch.dueDate : todo.dueDate,
     categoryId: patch.categoryId !== undefined ? patch.categoryId : todo.categoryId,
     tagIds: patch.tagIds ?? todo.tagIds,
     sortOrder: todo.sortOrder,
     pinned: todo.pinned,
     assignee: todo.assignee,
-    kanbanColumnId: todo.kanbanColumnId,
+    kanbanColumnId:
+      patch.kanbanColumnId !== undefined ? patch.kanbanColumnId : todo.kanbanColumnId,
     quiet: true,
   });
   emit("refresh");
@@ -137,12 +143,20 @@ async function onDueDateUpdate(todo: TodoSummary, dueDate: string | null) {
   await updateTodoInline(todo, { dueDate });
 }
 
+async function onStartDateUpdate(todo: TodoSummary, startDate: string | null) {
+  await updateTodoInline(todo, { startDate });
+}
+
 async function onTagsUpdate(todo: TodoSummary, tagIds: number[]) {
   await updateTodoInline(todo, { tagIds });
 }
 
 async function onCategoryUpdate(todo: TodoSummary, categoryId: number | null) {
   await updateTodoInline(todo, { categoryId });
+}
+
+async function onKanbanColumnUpdate(todo: TodoSummary, kanbanColumnId: number | null) {
+  await updateTodoInline(todo, { kanbanColumnId });
 }
 
 async function onRestore(todo: TodoSummary) {
@@ -191,6 +205,9 @@ async function onListSortEnd(evt: SortableEvent) {
   }
 
   try {
+    const pinned = sortableTodos.value.filter((todo) => todo.pinned);
+    const unpinned = sortableTodos.value.filter((todo) => !todo.pinned);
+    sortableTodos.value = [...pinned, ...unpinned];
     const items = buildBucketSortPositions(sortableTodos.value);
     if (items.length) {
       await todoApi.reorderPositions(items);
@@ -218,14 +235,7 @@ function onCompletedFilterChange(v: boolean | null) {
 function onHeaderSortChange(prop: string) {
   const field = TODO_SORT_PROP_MAP[prop];
   if (!field) return;
-
-  const { field: currentField, direction: currentDirection } = parsedSort.value;
-  if (currentField === field) {
-    const nextDirection = currentDirection === "asc" ? "desc" : "asc";
-    uiStore.setTodoSort(buildTodoSort(field as TodoSortField, nextDirection));
-    return;
-  }
-  uiStore.setTodoSort(buildTodoSort(field as TodoSortField, "asc"));
+  uiStore.setTodoSort(nextTodoSort(uiStore.todoSort, field as TodoSortField));
 }
 
 defineExpose({ refresh });
@@ -324,6 +334,7 @@ onMounted(() => {
         v-model="sortableTodos"
         :categories="categoryStore.categories"
         :tags="tagStore.tags"
+        :kanban-columns="kanbanColumnStore.columns"
         :loading="todoStore.loading"
         :is-trash-mode="isTrashMode"
         :can-drag="canDrag"
@@ -340,8 +351,10 @@ onMounted(() => {
         @title-update="onTitleUpdate"
         @priority-update="onPriorityUpdate"
         @due-date-update="onDueDateUpdate"
+        @start-date-update="onStartDateUpdate"
         @tags-update="onTagsUpdate"
         @category-update="onCategoryUpdate"
+        @kanban-column-update="onKanbanColumnUpdate"
         @delete="onDelete"
         @restore="onRestore"
       />
@@ -397,7 +410,9 @@ onMounted(() => {
 .table-wrap {
   flex: 1;
   min-height: 0;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background: var(--panel-bg);
 }
 </style>

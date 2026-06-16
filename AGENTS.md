@@ -241,5 +241,34 @@ const state = await page.evaluate(() => {
 ### 8.5 其他可选手段
 
 - **人工 DevTools：** 启动带 `--remote-debugging-port=9222` 的 exe 后，Chrome/Edge 打开 `chrome://inspect` → 选择对应 page inspect（与 CDP 同源）。
-- **Rust 侧日志：** `src-tauri/src/app_log.rs`、`invoke` 失败时前端 `tauriInvoke.ts` 会写 app log；DOM/控制台无法访问时再看。
+- **Rust 侧日志：** `src-tauri/src/infra/log.rs`、`invoke` 失败时前端 `tauriInvoke.ts` 会写 app log；DOM/控制台无法访问时再看。
 - **不要依赖 `vite preview` 代替 release：** 浏览器里没有 Tauri CSP 与 `ipc.localhost`，无法复现同类问题。
+
+## 9. 列表视图开发备忘
+
+主界面任务列表为自定义实现（`DraggableTaskList.vue`），**不是** `el-table`。架构说明见 [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md#列表视图实现)。
+
+### 9.1 关键约束
+
+| 场景 | 注意点 |
+| ---- | ------ |
+| 表头 / 表体对齐 | 表头与表体必须在同一横向滚动容器内；列设置按钮叠在表头，不要放进表体行 |
+| 纵向 sticky 表头 | `TaskListPanel` 的 `.table-wrap` 用 `overflow: hidden`；纵向滚动只在 `.task-list-scroll` |
+| 固定列重叠 | 左 / 中 / 右三区各自设不透明背景，避免 sticky 重叠时透视 |
+| 子组件样式 | 行 / 列单元格在独立 `.vue` 中，父组件需 `:deep()` 或子组件自带 scoped 样式 |
+| 列宽 | 固定像素宽定义在 `taskListColumns.ts`；标题列用 `minmax(Npx, 1fr)` 占满剩余宽度 |
+
+### 9.2 相关文件
+
+- 布局：`DraggableTaskList.vue`、`TaskListPanel.vue`
+- 单元格：`TaskListColumnCells.vue`（表头）、`TaskListRowCells.vue`（表体）
+- 列配置：`TaskListColumnSettings.vue`、`stores/taskListColumns.ts`、`utils/taskListColumns.ts`
+- 上下文：`taskListCellContext.ts`（`provide` / `inject`）
+
+### 9.3 修改后验证
+
+1. 开启多列 → 横向滚动，左 / 右列保持固定
+2. 纵向滚动 → 表头 sticky 不随内容滚走
+3. 列设置 Popover → 显隐 / 排序生效且重启后保留
+4. 行内编辑（标题、分类、标签等）→ 不破坏列对齐
+5. 涉及 i18n 插值时按 §1 执行 release 构建冒烟

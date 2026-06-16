@@ -1,6 +1,6 @@
 # 已实现功能
 
-> 最后更新：2026-06-07  
+> 最后更新：2026-06-15  
 > 本文档描述**当前代码中已可用**的能力，不含规划项。
 
 ---
@@ -22,7 +22,7 @@
 | 拖拽排序 | 列表视图（默认排序时）、极简列表（`vue-draggable-plus`，带动画） |
 | 看板列归属 | 任务可拖入看板列，支持未分配列 |
 
-**相关文件**：`TaskListPanel.vue`、`DraggableTaskList.vue`、`TaskDetailPanel.vue`、`TaskDetailSubtasks.vue`、`MinimalTaskList.vue`、`todo.ts`（store）、`repositories/mod.rs`
+**相关文件**：`TaskListPanel.vue`、`DraggableTaskList.vue`、`TaskListColumnCells.vue`、`TaskListRowCells.vue`、`TaskListColumnSettings.vue`、`taskListColumns.ts`、`stores/taskListColumns.ts`、`TaskDetailPanel.vue`、`TaskDetailSubtasks.vue`、`MinimalTaskList.vue`、`todo.ts`（store）、`repositories/mod.rs`
 
 ---
 
@@ -49,7 +49,7 @@
 | 完成后行为 | 自动推进下一周期或保持当前周期 |
 | 通知联动 | 与到期提醒共用系统 / 邮件 / 应用内通道 |
 
-**相关文件**：`TaskDetailReminderPanel.vue`、`recurrence.ts`、`recurrence.rs`、`lunar.rs`、`notifications.rs`
+**相关文件**：`TaskDetailReminderPanel.vue`、`recurrence.ts`、`domain/recurrence.rs`、`domain/lunar.rs`、`infra/notifications.rs`
 
 ---
 
@@ -69,12 +69,32 @@
 
 | 功能 | 说明 |
 |------|------|
-| 列表视图 | 可排序列（标题、优先级、截止日等）、完成勾选、标签展示 |
+| 列表视图 | 自定义表格（非 `el-table`）：可排序列、完成勾选、行内编辑、列显隐与顺序配置 |
+| 列表固定列 | 左固定（置顶 / 勾选 / 标题）、中间横向滚动、右固定（操作）；表头纵向 sticky |
+| 列表可选列 | 优先级、状态、开始 / 截止日、分类、标签、负责人、看板列、周期提醒、创建 / 更新时间 |
+| 列表列设置 | 表头右侧按钮：切换列可见性、拖拽调整列顺序；配置持久化 |
 | 看板视图 | 按列分桶、列内与跨列拖拽 |
+| 甘特图视图 | 与列表、看板并列；日 / 周 / 月粒度、「今天」定位；拖拽调整起止日期 |
 | 极简模式 | 独立窗口、边缘吸附、失焦缩边、置顶 / 可排序分区 |
 | 时间筛选 | 全部 / 年 / 月 / 周 / 今日（客户端过滤） |
 | 组合筛选 | 分类 + 标签 + 完成状态 + 优先级 + 搜索词 |
 | 回收站模式 | 侧边栏切换，仅显示已删任务 |
+
+列表实现细节见 [ARCHITECTURE.md § 列表视图实现](./ARCHITECTURE.md#列表视图实现)。
+
+---
+
+## 3.1 AI 助手（可选）
+
+> 默认关闭；需在设置 → AI 配置中启用并填写 API 或本地 Ollama。
+
+| 功能 | 说明 |
+|------|------|
+| 网关配置 | 云端 OpenAI 兼容 API 或本地 Ollama；连接测试与超时 |
+| 一句话建任务 | 快速输入栏解析自然语言，预览确认后创建 |
+| 子任务拆解 | 详情子任务 Tab 内 AI 生成步骤列表，勾选后追加 |
+
+**相关文件**：`SettingsAiSection.vue`、`stores/aiGateway.ts`、`gateway/ai.rs`
 
 ---
 
@@ -164,6 +184,7 @@
 | 通知 | 总开关、系统、邮件、提前提醒、重复频率 |
 | 邮件 | SMTP 网关完整配置 |
 | 数据 | 备份、恢复、JSON 导入导出、打开数据目录 |
+| AI | 可选：云端 / Ollama 网关、连接测试 |
 
 **跨窗口同步**：主题、语言、透明度、通知设置等通过 Tauri 事件广播。
 
@@ -202,9 +223,9 @@
 - 分类 / 标签侧边栏重命名与颜色编辑
 - 免打扰时段、通知文案多语言（Rust 层）
 - 自动备份、DB 损坏恢复引导
-- 列表虚拟滚动、时间筛选 SQL 下沉
+- 列表虚拟滚动（列配置与固定列已实现，大数据量性能仍待优化）
 - 云同步、多人协作、插件体系
 - `quadrant` 四象限字段（已迁移为看板列，旧字段保留）
-- `TodoItem.vue`（遗留组件，未使用）
+- `TodoItem.vue`（遗留组件，已被 `DraggableTaskList` 替代，待删除）
 
 后续规划见 [Plan.md](./Plan.md)。

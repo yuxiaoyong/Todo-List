@@ -64,7 +64,10 @@ declare module 'vue' {
     TaskDetailPanelBody: typeof import('./src/components/layout/TaskDetailPanelBody.vue')['default']
     TaskDetailReminderPanel: typeof import('./src/components/layout/TaskDetailReminderPanel.vue')['default']
     TaskDetailSubtasks: typeof import('./src/components/layout/TaskDetailSubtasks.vue')['default']
+    TaskListColumnCells: typeof import('./src/components/layout/TaskListColumnCells.vue')['default']
+    TaskListColumnSettings: typeof import('./src/components/layout/TaskListColumnSettings.vue')['default']
     TaskListPanel: typeof import('./src/components/layout/TaskListPanel.vue')['default']
+    TaskListRowCells: typeof import('./src/components/layout/TaskListRowCells.vue')['default']
     TodoItem: typeof import('./src/components/todo/TodoItem.vue')['default']
     WysiwygEditor: typeof import('./src/components/editor/WysiwygEditor.vue')['default']
   }

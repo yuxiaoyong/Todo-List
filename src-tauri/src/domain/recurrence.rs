@@ -1,7 +1,7 @@
 use chrono::{DateTime, Datelike, Local, NaiveDate, TimeZone};
 
 use crate::db::repositories::{RecurrenceConfig, TodoSummary};
-use crate::lunar::{next_lunar_yearly_occurrence, solar_ymd_to_lunar_year};
+use crate::domain::lunar::{next_lunar_yearly_occurrence, solar_ymd_to_lunar_year};
 
 pub fn should_notify_recurrence(
     todo: &TodoSummary,
